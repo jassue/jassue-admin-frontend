@@ -1,24 +1,27 @@
-# app
+### Laravel Vue Admin
 
-## Project setup
+基于vue-cli@4进行构建，后端代码移步 [laravel-vue-admin-api](https://github.com/jassue/laravel-vue-admin-api.git).
+
+### 安装依赖
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 开发
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 编译生产
 ```
 npm run build
 ```
 
-### Lints and fixes files
+### 代码检查
 ```
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 更多配置
+见 [官方文档](https://cli.vuejs.org/config/).
