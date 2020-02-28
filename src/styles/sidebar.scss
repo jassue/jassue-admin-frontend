@@ -46,7 +46,9 @@
     }
 
     .svg-icon {
-      margin-right: 16px;
+      width: 24px;
+      padding: 0 5px;
+      margin-right: 11px;
     }
 
     // menu hover
@@ -73,21 +75,10 @@
 
     // when menu collapsed
     .el-menu--collapse {
-      .svg-icon {
-        margin-right: 0px;
-      }
-
-      .el-tooltip {
-        text-align: center;
-      }
-  
       .el-submenu {
         overflow: hidden;
   
         &>.el-submenu__title {
-          padding: 0 !important;
-          text-align: center;
-  
           &>span {
             height: 0;
             width: 0;

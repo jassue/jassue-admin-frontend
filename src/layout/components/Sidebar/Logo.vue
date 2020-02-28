@@ -2,7 +2,7 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <router-link class="sidebar-logo-link" to="/">
       <img class="sidebar-logo" src="@/assets/logo.png">
-      <h1 v-if="!collapse" class="sidebar-title">{{ title }}</h1>
+      <span v-if="!collapse" class="sidebar-title">{{ title }}</span>
     </router-link>
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
   line-height: 64px;
   background: $menuBg;
   overflow: hidden;
-  text-align: center;
+  padding: 0 16px;
 
   & .sidebar-logo-link {
     height: 100%;
@@ -44,10 +44,10 @@ export default {
     & .sidebar-logo {
       width: 32px;
       height: 32px;
+      margin-right: 9px;
       vertical-align: middle;
     }
     & .sidebar-title {
-      display: inline-block;
       margin: 0;
       color: #fff;
       font-weight: 600;
