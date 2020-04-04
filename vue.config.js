@@ -4,7 +4,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const port = process.env.port || process.env.DEV_CONFIG_PORT
+const port = process.env.DEV_CONFIG_PORT || 80
 
 module.exports = {
   publicPath: '/',
