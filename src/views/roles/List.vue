@@ -1,22 +1,18 @@
 <template>
   <div class="app-container">
-    <el-row>
-      <el-col>
-        <el-button v-if="checkPermission('ROLE_DELETE')" type="danger" @click="batchDelete">{{ $t('table.delete') }}</el-button>
-        <div style="float:right">
-          <el-input v-model="query.keyword" :placeholder="$t('table.enter_keyword')" style="width:200px" />
-          <el-button type="primary" icon="el-icon-search" @click="handleFilter">
-            {{ $t('table.search') }}
-          </el-button>
-          <router-link v-if="checkPermission('ROLE_CREATE')" to="/administrator/roles/create">
-            <el-button type="primary" icon="el-icon-plus">
-              {{ $t('table.add') }}
-            </el-button>
-          </router-link>
-        </div>
-      </el-col>
-    </el-row>
-    <el-table ref="multipleTable" v-loading="loading" :data="list" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+    <div class="filter-container">
+      <el-input v-model="query.keyword" :placeholder="$t('table.enter_keyword')" style="width:200px" />
+      <el-button type="primary" icon="el-icon-search" @click="handleFilter">
+        {{ $t('table.search') }}
+      </el-button>
+      <router-link v-if="checkPermission('ROLE_CREATE')" to="/administrator/roles/create">
+        <el-button type="primary" icon="el-icon-plus">
+          {{ $t('table.add') }}
+        </el-button>
+      </router-link>
+      <el-button v-if="checkPermission('ROLE_DELETE')" type="danger" @click="batchDelete">{{ $t('table.delete') }}</el-button>
+    </div>
+    <el-table ref="multipleTable" v-loading="loading" :data="list" tooltip-effect="dark" border style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column :selectable="checkSelectable" type="selection" width="55" />
       <el-table-column prop="id" label="ID" width="55" />
       <el-table-column prop="name" :label="$t('name')" />
@@ -98,7 +94,7 @@ export default {
         } catch (error) {
           this.$message.error(error.response.data.message)
         }
-      })
+      }).catch(() => {})
     },
     deleteOne(id) {
       this.$confirm(this.$t('table.delete_confirm'), this.$t('table.tip'), {
@@ -115,7 +111,7 @@ export default {
           .catch(error => {
             this.$message.error(error.response.data.message)
           })
-      })
+      }).catch(() => {})
     }
   }
 }

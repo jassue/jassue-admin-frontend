@@ -61,9 +61,11 @@ div:focus {
 
 //main-container全局样式
 .app-container {
-    margin: 10px 20px 20px;
-    padding: 15px;
-    background-color: #fff;
+    padding: 20px;
+}
+
+.filter-container {
+    padding-bottom: 10px;
 }
 
 .text-center {
@@ -85,4 +87,8 @@ form .tips {
 
 .el-table th:first-child > .cell {
     padding: 0 14px !important;
+}
+
+.el-table--border th.is-leaf:first-child > .cell {
+    padding: 0 14px 0px 10px !important;
 }

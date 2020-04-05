@@ -39,7 +39,8 @@ module.exports = {
     delete_confirm: '此操作将永久删除, 是否继续?',
     confirm: '确定',
     cancel: '取消',
-    tip: '提示'
+    tip: '提示',
+    batch: '批量'
   },
   permission: {
     DASHBOARD: '主页',

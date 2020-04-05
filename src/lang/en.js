@@ -39,7 +39,8 @@ module.exports = {
     delete_confirm: 'This operation will be permanently deleted, do you want to continue?',
     confirm: 'Confirm',
     cancel: 'Cancel',
-    tip: 'Prompt'
+    tip: 'Prompt',
+    batch: 'Batch'
   },
   permission: {
     DASHBOARD: 'Dashboard',
