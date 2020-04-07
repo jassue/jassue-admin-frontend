@@ -89,7 +89,7 @@ export default {
         if (valid) {
           try {
             const data = await updateInfo(this.form)
-            await this.$store.dispatch('user/setInfo', data)
+            this.$store.dispatch('user/setInfo', data)
             if (this.form.password !== '') {
               await this.$store.dispatch('user/logout')
               this.$message.warning(this.$t('pwd_change_success'))

@@ -79,19 +79,18 @@ export default {
       }
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-            })
-            .catch((err) => {
-              if (err.response.data.error_code === 40101) {
+          try {
+            await this.$store.dispatch('user/login', this.loginForm)
+            this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+          } catch (err) {
+            if (err.response.data.error_code === 60005) {
                 this.$message.error(this.$i18n.t('login.login_fail'))
-              } else {
-                this.$message.error(err.response.data.message)
-              }
-            })
+            } else {
+              this.$message.error(err.response.data.message)
+            }
+          }
         } else {
           console.log('error submit!!')
           return false

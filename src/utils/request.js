@@ -49,11 +49,6 @@ instance.interceptors.response.use(
       })
       routerInstance.push('/login')
     }
-    // Message({
-    //   message: message,
-    //   type: 'error',
-    //   duration: 3 * 1000
-    // })
     return Promise.reject(error)
   }
 )
