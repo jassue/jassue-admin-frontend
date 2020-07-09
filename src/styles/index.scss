@@ -65,7 +65,7 @@ div:focus {
 }
 
 .filter-container {
-    padding-bottom: 10px;
+    padding-bottom: 8px;
 }
 
 .text-center {
@@ -91,4 +91,42 @@ form .tips {
 
 .el-table--border th.is-leaf:first-child > .cell {
     padding: 0 14px 0px 10px !important;
+}
+
+.selection-bar {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    padding: 13px 12px;
+    height: 40px;
+    color: #777;
+    .selected—title {
+        flex-shrink: 0;
+        padding-right: 20px;
+        border-right: 1px solid #e6e6e6;
+        .selected—count {
+            color: #409EFF;
+        }
+    }
+    .selection-items-box {
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        overflow-y: hidden;
+        .selection-item {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            text-align: left;
+            width: auto;
+            padding: 15px;
+            .selection-item-name {
+                margin-left: 3px;
+                cursor: pointer;
+                &:hover {
+                    color: #409EFF;
+                }
+            }
+        }
+    }
 }
