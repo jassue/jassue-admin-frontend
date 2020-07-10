@@ -13,7 +13,7 @@
         </el-button>
       </div>
       <div style="float:right">
-        <el-button type="primary" icon="el-icon-plus" @click="newBtn">
+        <el-button v-if="checkPermission('ADMIN_CREATE')" type="primary" icon="el-icon-plus" @click="newBtn">
           {{ $t('table.add') }}
         </el-button>
       </div>
@@ -128,7 +128,6 @@ export default {
   components: { Pagination },
   data() {
     return {
-      checked: true,
       tableColumn: [
         { prop: 'id', label: 'ID', width: '55' },
         { prop: 'username', label: this.$t('login.username') },
