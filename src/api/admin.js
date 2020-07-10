@@ -20,6 +20,14 @@ class AdminResource extends Resource {
       method: 'get'
     })
   }
+
+  resetPassword(data) {
+    return request({
+      url: '/' + this.uri + '/batch/password',
+      method: 'patch',
+      data: data
+    })
+  }
 }
 
 export default AdminResource

@@ -13,13 +13,12 @@
         </el-button>
       </div>
       <div style="float:right">
-        <router-link v-if="checkPermission('ADMIN_CREATE')" to="/administrator/users/create">
-          <el-button type="primary" icon="el-icon-plus">
-            {{ $t('table.add') }}
-          </el-button>
-        </router-link>
+        <el-button type="primary" icon="el-icon-plus" @click="newBtn">
+          {{ $t('table.add') }}
+        </el-button>
       </div>
     </div>
+    <!-- 批量操作 -->
     <div v-if="selectionList.length > 0 && selectionBarList.length > 0" class="selection-bar">
       <div class="selected—title">已选中<span class="selected—count">{{ selectionList.length }}</span>项</div>
       <div class="selection-items-box">
@@ -30,6 +29,7 @@
         </div>
       </div>
     </div>
+    <!-- 数据表 -->
     <el-table ref="multipleTable"
       v-loading="loading" 
       :data="list"
@@ -54,18 +54,66 @@
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('operation')" width="200" align="center">
+      <el-table-column :label="$t('operation')" align="center">
         <template v-if="scope.row.is_actionable" slot-scope="scope">
           <el-button size="mini" v-if="scope.row.status" type="success" @click="toggleStatus(scope.row, 0)">{{ statusMap[0] }}</el-button>
           <el-button size="mini" v-else type="info" @click="toggleStatus(scope.row, 1)">{{ statusMap[1] }}</el-button>
-          <router-link v-if="checkPermission('ADMIN_UPDATE')" :to="'/administrator/users/edit/' + scope.row.id">
-            <el-button size="mini" type="primary">{{ $t('table.edit') }}</el-button>
-          </router-link>
+          <el-button v-if="checkPermission('ADMIN_UPDATE')" size="mini" type="primary" @click="editBtn(scope.row)">{{ $t('table.edit') }}</el-button>
           <el-button size="mini" v-if="checkPermission('ADMIN_DELETE')" type="danger" @click="deleteOne(scope.row.id)">{{ $t('table.delete') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
     <pagination v-show="total > 0" :total="total" :page.sync="query.page" :limit.sync="query.limit" @pagination="getList" />
+    <!-- 添加/编辑弹出框 -->
+    <el-dialog :title="form.id ? '编辑管理员' : '添加管理员'" :visible.sync="dialogVisible" :before-close="dialogClose" width="680px">
+      <el-form label-width="20%" ref="dialogForm" :model="form" :rules="formRules" class="dialog-form">
+        <el-form-item
+          v-for="(item, index) in formList"
+          :key="index"
+          :prop="item.prop"
+          :label="item.label">
+          <span slot="label">{{ item.label }}</span>
+          <el-tooltip
+            v-if="item.tips"
+            slot="label"
+            :content="item.tips"
+            effect="dark"
+            placement="top">
+            <svg-icon class="tooltip-icon" icon-class="question" />
+          </el-tooltip>
+          <template v-if="item.type === 'checkbox'">
+            <el-checkbox-group v-model="form[item.prop]">
+              <el-checkbox v-for="role in roleList" :key="role.id" :label="role.id">{{ role.name }}</el-checkbox>
+            </el-checkbox-group>
+          </template>
+          <template v-else-if="item.type === 'switch'">
+            <el-switch v-model="form[item.prop]"
+            active-color="#409eff"
+            active-value="0"
+            inactive-color="#dcdfe6"
+            inactive-value="1" />
+          </template>
+          <el-input v-else v-model="form[item.prop]" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogClose">取 消</el-button>
+        <el-button type="primary" @click="dialogSubmit">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 重置密码 -->
+    <el-dialog title="重置密码" :visible.sync="resetPwdDialog" :before-close="resetPwdDialogClose" width="680px">
+      <el-form label-width="20%" ref="resetPwd" :model="passForm" :rules="formRules" class="dialog-form">
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="passForm.password" type="password" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetPwdDialogClose">取 消</el-button>
+        <el-button type="primary" @click="resetPwd">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -80,9 +128,9 @@ export default {
   components: { Pagination },
   data() {
     return {
+      checked: true,
       tableColumn: [
         { prop: 'id', label: 'ID', width: '55' },
-        { prop: 'name', label: this.$t('nick_name') },
         { prop: 'username', label: this.$t('login.username') },
         { prop: 'name', label: this.$t('nick_name') },
         { prop: 'roles', label: this.$t('role') },
@@ -102,7 +150,31 @@ export default {
       statusMap: {
         0: this.$t('table.enable'),
         1: this.$t('table.disable')
-      }
+      },
+      dialogVisible: false,
+      form: {},
+      formRules: {
+        name: [
+          { required: true, trigger: 'blur', message: this.$t('rule_nick_name_req') },
+          { max: 10, trigger: 'blur', message: this.$t('rule_nick_name_len') }
+        ],
+        username: [
+          { required: true, trigger: 'blur', message: this.$t('rule_nick_name_req') },
+          { max: 16, min: 3, trigger: 'blur', message: this.$t('login.rule_username_len') }
+        ],
+        password: [
+          { required: true, min: 6, trigger: 'blur', message: this.$t('login.rule_pass_len') }
+        ],
+        role_ids: [
+          { required: true, trigger: 'blur', message: this.$t('rule_role_req') }
+        ],
+        status: [
+          { required: true, trigger: 'blur' }
+        ]
+      },
+      roleList: [],
+      resetPwdDialog: false,
+      passForm: {}
     }
   },
   computed: {
@@ -110,9 +182,28 @@ export default {
       let barList = [
         { icon: 'el-icon-circle-close', name: '禁用', type: 'disable', permission: 'ADMIN_UPDATE'},
         { icon: 'el-icon-circle-check', name: '启用', type: 'enable', permission: 'ADMIN_UPDATE'},
-        { icon: 'el-icon-delete', name: '删除', type: 'delete', permission: 'ADMIN_DELETE'}
+        { icon: 'el-icon-refresh-right', name: '重置密码', type: 'reset-pwd', permission: 'ADMIN_UPDATE'},
+        { icon: 'el-icon-delete', name: '删除', type: 'delete', permission: 'ADMIN_DELETE'},
       ]
       return barList.filter(item => item.permission === undefined || checkPermission(item.permission))
+    },
+    formList() {
+      if (this.form.id) {
+        return [
+          { prop: 'username', label: this.$t('login.username') },
+          { prop: 'name', label: this.$t('nick_name') },
+          { prop: 'role_ids', label: this.$t('role'), type: 'checkbox' },
+          { prop: 'status', label: this.$t('status'), type: 'switch' }
+        ]
+      } else {
+        return [
+          { prop: 'username', label: this.$t('login.username') },
+          { prop: 'name', label: this.$t('nick_name') },
+          { prop: 'password', label: this.$t('login.password') },
+          { prop: 'role_ids', label: this.$t('role'), type: 'checkbox' },
+          { prop: 'status', label: this.$t('status'), type: 'switch' }
+        ]
+      }
     }
   },
   created() {
@@ -169,6 +260,10 @@ export default {
           this.getList()
         }).catch(() => {})
       }
+      else if (type === 'reset-pwd') {
+        this.passForm = { ids: ids }
+        this.resetPwdDialog = true
+      }
     },
     async toggleStatus(row, status) {
       const data = await adminResource.toggleStatus({ ids: [row.id], status: status })
@@ -190,7 +285,88 @@ export default {
         this.query.page = 1
         this.getList()
       }).catch(() => {})
+    },
+    getRoleList() {
+      adminResource.getRoleListForCreateOrUpdate()
+      .then(res => {
+        this.roleList = res
+      })
+    },
+    newBtn() {
+      this.dialogVisible = true
+      this.getRoleList()
+      this.form = {
+        role_ids: [],
+        status: '0'
+      }
+    },
+    editBtn(detail) {
+      this.getRoleList()
+      let form = {}
+      this.formList.forEach(item => {
+        if (item.prop !== 'password') {
+          if (item.prop === 'role_ids') {
+            form[item.prop] = detail.roles.map(item => item.id)
+          } else if (item.prop === 'status') {
+            form[item.prop] = detail.status.toString()
+          } else {
+            form[item.prop] = detail[item.prop]
+          }
+        }
+      })
+      form.id = detail.id
+      this.form = form
+      this.dialogVisible = true
+    },
+    dialogClose() {
+      this.$refs['dialogForm'].resetFields()
+      this.dialogVisible = false
+    },
+    dialogSubmit() {
+      this.$refs['dialogForm'].validate(async(valid) => {
+        if (valid) {
+          if (this.form.id) {
+            await adminResource.update(this.form.id, this.form)
+          } else {
+            await adminResource.store(this.form)
+          }
+          this.dialogClose()
+          this.getList()
+          this.$message.success(this.$t('table.operation_success'))
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetPwdDialogClose() {
+      this.$refs['resetPwd'].resetFields()
+      this.resetPwdDialog = false
+    },
+    resetPwd() {
+      this.$refs['resetPwd'].validate(async(valid) => {
+        if (valid) {
+          await adminResource.resetPassword(this.passForm)
+          this.resetPwdDialogClose()
+          this.$message.success(this.$t('table.operation_success'))
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.dialog-form {
+  /deep/ .el-form-item {
+    margin-bottom: 8px;
+    padding-bottom: 15px;
+    .el-form-item__content {
+      width: 60%;
+    }
+  }
+}
+</style>

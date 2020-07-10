@@ -10,7 +10,6 @@ import Redirect from '@/views/redirect/'
 import Dashboard from '@/views/dashboard/'
 import AccountSetting from '@/views/account-setting/'
 import UserList from '@/views/users/List'
-import UserProfile from '@/views/users/Profile'
 import RoleList from '@/views/roles/List'
 import RoleInfo from '@/views/roles/Info'
 
@@ -79,20 +78,6 @@ export const asyncRouterMap = [
         component: UserList,
         name: 'UserList',
         meta: { title: 'users', icon: 'user', permission: 'ADMIN_VIEW' }
-      },
-      {
-        path: 'users/create',
-        component: UserProfile,
-        name: 'UserCreate',
-        meta: { title: 'UserCreate', noCache: true, permission: 'ADMIN_CREATE' },
-        hidden: true
-      },
-      {
-        path: 'users/edit/:id(\\d+)',
-        component: UserProfile,
-        name: 'UserEdit',
-        meta: { title: 'UserEdit', noCache: true, permission: 'ADMIN_UPDATE' },
-        hidden: true
       },
       {
         path: 'roles',

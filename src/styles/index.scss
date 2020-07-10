@@ -17,10 +17,6 @@ body {
     margin: 0;
 }
 
-label {
-    font-weight: 700;
-}
-
 #app {
     height: 100%;
 }
@@ -129,4 +125,8 @@ form .tips {
             }
         }
     }
+}
+
+.tooltip-icon {
+    margin-left: 2px;
 }
