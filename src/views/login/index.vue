@@ -81,16 +81,8 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          try {
-            await this.$store.dispatch('user/login', this.loginForm)
-            this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-          } catch (err) {
-            if (err.response.data.error_code === 60005) {
-                this.$message.error(this.$i18n.t('login.login_fail'))
-            } else {
-              this.$message.error(err.response.data.message)
-            }
-          }
+          await this.$store.dispatch('user/login', this.loginForm)
+          this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
         } else {
           console.log('error submit!!')
           return false
