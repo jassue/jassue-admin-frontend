@@ -128,5 +128,9 @@ form .tips {
 }
 
 .tooltip-icon {
-    margin-left: 2px;
+    margin-left: 3px;
+}
+
+.el-form /deep/ .el-form-item__label {
+    padding-bottom: 0px;
 }

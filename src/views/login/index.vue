@@ -29,6 +29,7 @@
 
 <script>
 import langSelect from '@/components/LangSelect/'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Login',
   components: {
@@ -56,6 +57,11 @@ export default {
       otherQuery: {}
     }
   },
+  computed: {
+    ...mapGetters([
+      'addRoutes'
+    ])
+  },
   watch: {
     $route: {
       handler: function(route) {
@@ -82,7 +88,7 @@ export default {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           await this.$store.dispatch('user/login', this.loginForm)
-          this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+          this.$router.push({ path: this.redirect || this.addRoutes[2].path, query: this.otherQuery })
         } else {
           console.log('error submit!!')
           return false

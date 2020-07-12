@@ -1,5 +1,5 @@
 <template>
-  <a href="https://github.com/jassue/laravel-vue-admin" target="_blank" class="github-corner" aria-label="View source on Github">
+  <a href="https://github.com/jassue/laravel-vue-admin-frontend" target="_blank" class="github-corner" aria-label="View source on Github">
     <svg
       width="80"
       height="80"

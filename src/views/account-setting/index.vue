@@ -1,28 +1,24 @@
 <template>
   <div class="app-container" style="min-height:500px">
-    <el-row>
-      <el-col :span="24" style="color: #303133">{{ $t('user_setting') }}</el-col>
-    </el-row>
-    <el-divider />
-    <el-form ref="form" label-position="right" label-width="15%" :model="form" :rules="formRules">
-      <el-form-item :label="$t('login.username')">
-        <el-col :span="8"><span>{{ userInfo.username }}</span></el-col>
-      </el-form-item>
-      <el-form-item :label="$t('nick_name')" prop="name">
-        <el-col :span="8"><el-input v-model="form.name" /></el-col>
-      </el-form-item>
-      <el-form-item :label="$t('old_password')" prop="old_password">
-        <el-col :span="8"><el-input v-model="form.old_password" type="password" /></el-col>
-      </el-form-item>
-      <el-form-item :label="$t('new_password')" prop="password">
-        <el-col :span="8"><el-input v-model="form.password" type="password" /></el-col>
-        <small class="tips">{{ $t('password_tip') }}</small>
-      </el-form-item>
-      <el-form-item :label="$t('confirm_password')" prop="confirm_password">
-        <el-col :span="8"><el-input v-model="form.confirm_password" type="password" /></el-col>
+    <el-form class="form" ref="form" label-position="top" :model="form" :rules="formRules">
+      <el-form-item
+        v-for="(item, index) in formList"
+        :key="index"
+        :prop="item.prop"
+        :label="item.label">
+        <span slot="label">{{ item.label }}</span>
+        <el-tooltip
+          v-if="item.tips"
+          slot="label"
+          :content="item.tips"
+          effect="dark"
+          placement="top">
+          <svg-icon class="tooltip-icon" icon-class="question" />
+        </el-tooltip>
+        <el-input v-model="form[item.prop]" :disabled="item.prop === 'username'" />
       </el-form-item>
       <el-form-item>
-        <el-col :offset="2"><el-button type="primary" @click="handleUpdate('form')">{{ $t('submit') }}</el-button></el-col>
+        <el-button type="primary" @click="handleUpdate('form')">{{ $t('submit') }}</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -50,12 +46,7 @@ export default {
       }
     }
     return {
-      form: {
-        name: '',
-        old_password: '',
-        password: '',
-        confirm_password: ''
-      },
+      form: {},
       formRules: {
         name: [
           { required: true, trigger: 'blur', message: this.$t('rule_nick_name_req') },
@@ -76,33 +67,35 @@ export default {
     }
   },
   computed: {
+    formList() {
+      return [
+        { prop: 'username', label: this.$t('login.username') },
+        { prop: 'name', label: this.$t('nick_name') },
+        { prop: 'old_password', label: this.$t('old_password') },
+        { prop: 'password', label: this.$t('new_password'), tips: '若不修改保留为空' },
+        { prop: 'confirm_password', label: this.$t('confirm_password') }
+      ]
+    },
     ...mapGetters([
       'userInfo'
     ])
   },
   created() {
+    this.form.username = this.userInfo.username
     this.form.name = this.userInfo.name
   },
   methods: {
     handleUpdate(form) {
       this.$refs[form].validate(async(valid) => {
         if (valid) {
-          try {
-            const data = await updateInfo(this.form)
-            this.$store.dispatch('user/setInfo', data)
-            if (this.form.password !== '') {
-              await this.$store.dispatch('user/logout')
-              this.$message.warning(this.$t('pwd_change_success'))
-              this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-            } else {
-              this.$message.success(this.$t('update_success'))
-            }
-          } catch (error) {
-            if (error.response.data.error_code === 10001) {
-              this.$message.error(this.$t('old_pass_error'))
-            } else {
-              this.$message.error(error.response.data.message)
-            }
+          const data = await updateInfo(this.form)
+          this.$store.dispatch('user/setInfo', data)
+          if (this.form.password) {
+            await this.$store.dispatch('user/logout')
+            this.$message.warning(this.$t('pwd_change_success'))
+            this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+          } else {
+            this.$message.success(this.$t('update_success'))
           }
         } else {
           console.log('error submit!!')
@@ -113,3 +106,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.form {
+  padding: 0 20px;
+  width: 40%;
+  min-width: 500px;
+}
+</style>

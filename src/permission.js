@@ -15,7 +15,7 @@ router.beforeEach(async(to, from, next) => {
   NProgress.start()
   if (store.getters.token) {
     if (to.path === '/login') {
-      next({ path: '/' })
+      next({ path: store.getters.addRoutes[2].path })
       NProgress.done()
     } else {
       if (store.getters.permissions.length === 0) {

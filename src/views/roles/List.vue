@@ -39,9 +39,6 @@
       </el-table-column>
       <el-table-column :label="$t('operation')" align="center">
         <template v-if="scope.row.is_actionable" slot-scope="scope">
-          <router-link v-if="checkPermission('ROLE_UPDATE')" :to="'/administrator/roles/edit/' + scope.row.id">
-            <el-button type="text">{{ $t('table.edit') }}</el-button>
-          </router-link>
           <el-button v-if="checkPermission('ROLE_UPDATE')" type="primary" @click="editBtn(scope.row)">{{ $t('table.edit') }}</el-button>
           <el-button v-if="checkPermission('ROLE_DELETE')" type="danger" @click="deleteOne(scope.row.id)">{{ $t('table.delete') }}</el-button>
         </template>
@@ -50,7 +47,7 @@
     <!-- 分页 -->
     <pagination v-show="total > 0" :total="total" :page.sync="query.page" :limit.sync="query.limit" @pagination="getList" />
     <!-- 添加/编辑弹出框 -->
-    <el-dialog :title="form.id ? '编辑角色' : '添加角色'" :visible.sync="dialogVisible" :before-close="dialogClose" width="680px">
+    <el-dialog :title="form.id ? '编辑角色' : '添加角色'" :visible.sync="dialogVisible" :before-close="dialogClose" width="800px">
       <el-form label-width="20%" ref="dialogForm" :model="form" :rules="formRules" class="dialog-form">
         <el-form-item
           v-for="(item, index) in formList"
@@ -72,8 +69,10 @@
               :data="permissionList"
               show-checkbox
               node-key="id"
+              :default-expand-all="true"
               :props="{ children: 'children', label: 'name' }"
-              @check="check" />
+              :render-content="treeRender"
+              @check="check"/>
           </template>
           <el-input v-else v-model="form[item.prop]" />
         </el-form-item>
@@ -97,6 +96,13 @@ export default {
   name: 'RoleList',
   components: { Pagination },
   data() {
+    const checkPermissionIds = (rule, value, callback) => {
+      if (!this.form.permission_ids.length > 0) {
+        callback(new Error('请至少选择一个权限'))
+      } else {
+        callback()
+      }
+    }
     return {
       tableColumn: [
         { prop: 'id', label: 'ID', width: '55' },
@@ -119,6 +125,9 @@ export default {
         name: [
           { required: true, trigger: 'blur', message: this.$t('rule_name_req') },
           { max: 20, trigger: 'blur', message: this.$t('rule_name_len') }
+        ],
+        permission_ids: [
+          { required: true, validator: checkPermissionIds, trigger: 'blur' }
         ]
       }
     }
@@ -139,6 +148,7 @@ export default {
   },
   created() {
     this.getList()
+    this.getPermissionList()
   },
   methods: {
     checkPermission,
@@ -199,39 +209,56 @@ export default {
     },
     async getPermissionList() {
       const data = await roleResource.getPermissionTree()
-      this.permissionList = data.map(item => this.buildTreeNode(item))
-      this.$nextTick(() => {
-        this.$refs['tree'][0].setCheckedKeys(this.form.permission_ids)
-      })
+      this.permissionList = data.map(item => this.buildTreeNode(item, 1))
     },
-    buildTreeNode(item) {
-      item.name = this.$t('permission.' + item.key)
+    buildTreeNode(item, level) {
+      item.level = level
       if (item.children !== undefined && item.children.length > 0) {
-        item.children.map(child => this.buildTreeNode(child))
+        item.children.map(child => this.buildTreeNode(child, level+1))
       }
       return item
     },
+    treeRender(h, { data }) {
+      let className = ''
+      if (data.key !== '' && data.level === 3) {
+        className = 'especially'
+      }
+      return (<div class={className}>{data.name}</div>)
+    },
+    changeTreeClass() {
+      let classDomList = document.getElementsByClassName('especially')
+      for (var i = 0; i < classDomList.length; i++) {
+        classDomList[i].parentNode.style.cssText = 'float: left'
+        classDomList[i].parentNode.className = 'el-tree-node__content option-wrapper'
+        classDomList[i].parentNode.parentNode.parentNode.style.marginLeft = '60px'
+      }
+    },
     newBtn() {
-      this.getPermissionList()
       this.dialogVisible = true
-      this.form = { permission_ids: [1] }
+      this.form = { permission_ids: [] }
+      this.$nextTick(() => {
+        this.changeTreeClass()
+      })
     },
     editBtn(detail) {
-      this.getPermissionList()
+      this.dialogVisible = true
       let form = {}
-      console.log(this.formList)
       this.formList.forEach(item => {
         form[item.prop] = detail[item.prop]
       })
       form.id = detail.id
       this.form = form
-      this.dialogVisible = true
+      this.$nextTick(() => {
+        this.changeTreeClass()
+        this.$refs['tree'][0].setCheckedKeys(this.form.permission_ids)
+      })
     },
     check(obj, checkObj) {
       this.form.permission_ids = checkObj.checkedKeys
     },
     dialogClose() {
-      this.$refs['dialogForm'].resetFields()
+      this.$refs['dialogForm'].clearValidate()
+      this.$refs['tree'][0].setCheckedKeys([])
       this.dialogVisible = false
     },
     dialogSubmit() {
@@ -265,4 +292,10 @@ export default {
     }
   }
 }
+.especially {
+  float: left;
+}
+.option-wrapper {
+  padding: 0 !important;
+} 
 </style>

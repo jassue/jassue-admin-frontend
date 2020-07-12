@@ -11,7 +11,6 @@ import Dashboard from '@/views/dashboard/'
 import AccountSetting from '@/views/account-setting/'
 import UserList from '@/views/users/List'
 import RoleList from '@/views/roles/List'
-import RoleInfo from '@/views/roles/Info'
 
 export const constantRouterMap = [
   {
@@ -84,20 +83,6 @@ export const asyncRouterMap = [
         component: RoleList,
         name: 'RoleList',
         meta: { title: 'roles', icon: 'role', permission: 'ROLE_VIEW' }
-      },
-      {
-        path: 'roles/create',
-        component: RoleInfo,
-        name: 'RoleCreate',
-        meta: { title: 'RoleCreate', noCache: true, permission: 'ROLE_CREATE' },
-        hidden: true
-      },
-      {
-        path: 'roles/edit/:id(\\d+)',
-        component: RoleInfo,
-        name: 'RoleEdit',
-        meta: { title: 'RoleEdit', noCache: true, permission: 'ROLE_UPDATE' },
-        hidden: true
       }
     ]
   },

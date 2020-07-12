@@ -3,8 +3,7 @@
     <div class="filter-container clearfix">
       <div style="float:left">
         <el-input v-model="query.keyword" :placeholder="$t('table.enter_keyword')" style="width:200px" />
-        <el-select v-model="query.status" style="width:100px">
-          <el-option :label="$t('table.all_status')" value="" />
+        <el-select v-model="query.status" clearable placeholder="状态" style="width:100px">
           <el-option :label="$t('table.enable')" value="0" />
           <el-option :label="$t('table.disable')" value="1" />
         </el-select>
@@ -54,12 +53,12 @@
           <span v-else>{{ scope.row[column.prop] }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('operation')" align="center">
+      <el-table-column :label="$t('operation')" align="center" width="250">
         <template v-if="scope.row.is_actionable" slot-scope="scope">
-          <el-button size="mini" v-if="scope.row.status" type="success" @click="toggleStatus(scope.row, 0)">{{ statusMap[0] }}</el-button>
-          <el-button size="mini" v-else type="info" @click="toggleStatus(scope.row, 1)">{{ statusMap[1] }}</el-button>
+          <el-button v-if="scope.row.status" size="mini" type="success" @click="toggleStatus(scope.row, 0)">{{ statusMap[0] }}</el-button>
+          <el-button v-else size="mini" type="info" @click="toggleStatus(scope.row, 1)">{{ statusMap[1] }}</el-button>
           <el-button v-if="checkPermission('ADMIN_UPDATE')" size="mini" type="primary" @click="editBtn(scope.row)">{{ $t('table.edit') }}</el-button>
-          <el-button size="mini" v-if="checkPermission('ADMIN_DELETE')" type="danger" @click="deleteOne(scope.row.id)">{{ $t('table.delete') }}</el-button>
+          <el-button v-if="checkPermission('ADMIN_DELETE')" size="mini" type="danger" @click="deleteOne(scope.row.id)">{{ $t('table.delete') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -318,7 +317,7 @@ export default {
       this.dialogVisible = true
     },
     dialogClose() {
-      this.$refs['dialogForm'].resetFields()
+      this.$refs['dialogForm'].clearValidate()
       this.dialogVisible = false
     },
     dialogSubmit() {
