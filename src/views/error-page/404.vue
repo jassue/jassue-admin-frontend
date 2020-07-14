@@ -35,7 +35,12 @@ export default {
   },
   methods: {
     goToFirstRoute() {
-      this.$router.push({ path: this.addRoutes[2].path })
+      const firstRoute = this.addRoutes[2]
+      if (firstRoute.path === '/') {
+        this.$router.push({ path: firstRoute.path })
+      } else {
+        this.$router.push({ path: firstRoute.path + '/' + firstRoute.children[0].path })
+      }
     }
   }
 }

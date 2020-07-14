@@ -88,7 +88,7 @@ export default {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           await this.$store.dispatch('user/login', this.loginForm)
-          this.$router.push({ path: this.redirect || this.addRoutes[2].path, query: this.otherQuery })
+          this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
         } else {
           console.log('error submit!!')
           return false
