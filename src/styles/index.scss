@@ -131,6 +131,16 @@ form .tips {
     margin-left: 3px;
 }
 
-.el-form /deep/ .el-form-item__label {
+.el-form .el-form-item__label {
     padding-bottom: 0px;
+}
+
+.dialog-form {
+    .el-form-item {
+      margin-bottom: 8px;
+      padding-bottom: 15px;
+      .el-form-item__content {
+        width: 60%;
+      }
+    }
 }

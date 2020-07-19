@@ -356,15 +356,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.dialog-form {
-  /deep/ .el-form-item {
-    margin-bottom: 8px;
-    padding-bottom: 15px;
-    .el-form-item__content {
-      width: 60%;
-    }
-  }
-}
-</style>
