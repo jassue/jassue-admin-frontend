@@ -54,6 +54,10 @@ module.exports = {
     ROLE_UPDATE: 'Edit role',
     ROLE_DELETE: 'Delete role'
   },
+  selection_bar: {
+    selected: '',
+    item: 'item(s) selected'
+  },
   token_expired: 'Token has expired',
   browser_problem: 'you browser can not work!',
   user_setting: 'Personal settings',
@@ -90,5 +94,8 @@ module.exports = {
   permission_title: 'Authority',
   rule_permission_req: 'Please select at least one permission',
   rule_name_req: 'Name is required',
-  rule_name_len: 'Name cannot exceed 20 characters'
+  rule_name_len: 'Name cannot exceed 20 characters',
+  reset_password: 'Reset password',
+  permission_req: 'Please select at least one permission',
+  new_password_tips: 'Leave blank if not modified'
 }

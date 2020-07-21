@@ -54,6 +54,10 @@ module.exports = {
     ROLE_UPDATE: '编辑角色',
     ROLE_DELETE: '删除角色'
   },
+  selection_bar: {
+    selected: '已选中',
+    item: '项'
+  },
   token_expired: 'Token已失效',
   browser_problem: '您的浏览器无法执行！',
   user_setting: '个人设置',
@@ -90,5 +94,8 @@ module.exports = {
   permission_title: '权限',
   rule_permission_req: '请至少选择一个权限',
   rule_name_req: '名称不能为空',
-  rule_name_len: '名称不能超过20个字符'
+  rule_name_len: '名称不能超过20个字符',
+  reset_password: '重置密码',
+  permission_req: '请至少选择一个权限',
+  new_password_tips: '若不修改保留为空'
 }

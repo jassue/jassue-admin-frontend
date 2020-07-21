@@ -16,6 +16,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   config => {
     // Do something before request is sent
+    config.headers['Language'] = store.getters.language
     if (getToken()) {
       config.headers['Authorization'] = 'Bearer ' + getToken()
     }

@@ -3,7 +3,7 @@
     <div class="filter-container clearfix">
       <div style="float:left">
         <el-input v-model="query.keyword" :placeholder="$t('table.enter_keyword')" style="width:200px" />
-        <el-select v-model="query.status" clearable placeholder="状态" style="width:100px">
+        <el-select v-model="query.status" clearable :placeholder="$t('status')" style="width:100px">
           <el-option :label="$t('table.enable')" value="0" />
           <el-option :label="$t('table.disable')" value="1" />
         </el-select>
@@ -19,7 +19,11 @@
     </div>
     <!-- 批量操作 -->
     <div v-if="selectionList.length > 0 && selectionBarList.length > 0" class="selection-bar">
-      <div class="selected—title">已选中<span class="selected—count">{{ selectionList.length }}</span>项</div>
+      <div class="selected—title">
+        {{ $t('selection_bar.selected') }}
+        <span class="selected—count">{{ selectionList.length }}</span>
+        {{ $t('selection_bar.item') }}
+      </div>
       <div class="selection-items-box">
         <div v-for="(item, index) in selectionBarList" :key="index" class="selection-item">
           <i :class="item.icon">
@@ -65,7 +69,7 @@
     <!-- 分页 -->
     <pagination v-show="total > 0" :total="total" :page.sync="query.page" :limit.sync="query.limit" @pagination="getList" />
     <!-- 添加/编辑弹出框 -->
-    <el-dialog :title="form.id ? '编辑管理员' : '添加管理员'" :visible.sync="dialogVisible" :before-close="dialogClose" width="680px">
+    <el-dialog :title="form.id ? $t('table.edit') : $t('table.add')" :visible.sync="dialogVisible" :before-close="dialogClose" width="680px">
       <el-form label-width="20%" ref="dialogForm" :model="form" :rules="formRules" class="dialog-form">
         <el-form-item
           v-for="(item, index) in formList"
@@ -97,20 +101,20 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogClose">取 消</el-button>
-        <el-button type="primary" @click="dialogSubmit">确 定</el-button>
+        <el-button @click="dialogClose">{{ $t('table.cancel') }}</el-button>
+        <el-button type="primary" @click="dialogSubmit">{{ $t('table.confirm') }}</el-button>
       </div>
     </el-dialog>
     <!-- 重置密码 -->
-    <el-dialog title="重置密码" :visible.sync="resetPwdDialog" :before-close="resetPwdDialogClose" width="680px">
+    <el-dialog :title="$t('reset_password')" :visible.sync="resetPwdDialog" :before-close="resetPwdDialogClose" width="680px">
       <el-form label-width="20%" ref="resetPwd" :model="passForm" :rules="formRules" class="dialog-form">
-        <el-form-item label="密码" prop="password">
+        <el-form-item :label="$t('login.password')" prop="password">
           <el-input v-model="passForm.password" type="password" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetPwdDialogClose">取 消</el-button>
-        <el-button type="primary" @click="resetPwd">确 定</el-button>
+        <el-button @click="resetPwdDialogClose">{{ $t('table.cancel') }}</el-button>
+        <el-button type="primary" @click="resetPwd">{{ $t('table.confirm') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -127,14 +131,6 @@ export default {
   components: { Pagination },
   data() {
     return {
-      tableColumn: [
-        { prop: 'id', label: 'ID', width: '55' },
-        { prop: 'username', label: this.$t('login.username') },
-        { prop: 'name', label: this.$t('nick_name') },
-        { prop: 'roles', label: this.$t('role') },
-        { prop: 'status', label: this.$t('status') },
-        { prop: 'created_at', label: this.$t('create_time') }
-      ],
       list: [],
       total: 0,
       loading: true,
@@ -145,13 +141,32 @@ export default {
         limit: 15,
         page: 1
       },
-      statusMap: {
-        0: this.$t('table.enable'),
-        1: this.$t('table.disable')
-      },
       dialogVisible: false,
       form: {},
-      formRules: {
+      roleList: [],
+      resetPwdDialog: false,
+      passForm: {}
+    }
+  },
+  computed: {
+    tableColumn() {
+      return [
+        { prop: 'id', label: 'ID', width: '55' },
+        { prop: 'username', label: this.$t('login.username') },
+        { prop: 'name', label: this.$t('nick_name') },
+        { prop: 'roles', label: this.$t('role') },
+        { prop: 'status', label: this.$t('status') },
+        { prop: 'created_at', label: this.$t('create_time') }
+      ]
+    },
+    statusMap() {
+      return {
+        0: this.$t('table.enable'),
+        1: this.$t('table.disable')
+      }
+    },
+    formRules() {
+      return {
         name: [
           { required: true, trigger: 'blur', message: this.$t('rule_nick_name_req') },
           { max: 10, trigger: 'blur', message: this.$t('rule_nick_name_len') }
@@ -169,19 +184,14 @@ export default {
         status: [
           { required: true, trigger: 'blur' }
         ]
-      },
-      roleList: [],
-      resetPwdDialog: false,
-      passForm: {}
-    }
-  },
-  computed: {
+      }
+    },
     selectionBarList() {
       let barList = [
-        { icon: 'el-icon-circle-close', name: '禁用', type: 'disable', permission: 'ADMIN_UPDATE'},
-        { icon: 'el-icon-circle-check', name: '启用', type: 'enable', permission: 'ADMIN_UPDATE'},
-        { icon: 'el-icon-refresh-right', name: '重置密码', type: 'reset-pwd', permission: 'ADMIN_UPDATE'},
-        { icon: 'el-icon-delete', name: '删除', type: 'delete', permission: 'ADMIN_DELETE'},
+        { icon: 'el-icon-circle-close', name: this.$t('table.disable'), type: 'disable', permission: 'ADMIN_UPDATE'},
+        { icon: 'el-icon-circle-check', name: this.$t('table.enable'), type: 'enable', permission: 'ADMIN_UPDATE'},
+        { icon: 'el-icon-refresh-right', name: this.$t('reset_password'), type: 'reset-pwd', permission: 'ADMIN_UPDATE'},
+        { icon: 'el-icon-delete', name: this.$t('table.delete'), type: 'delete', permission: 'ADMIN_DELETE'},
       ]
       return barList.filter(item => item.permission === undefined || checkPermission(item.permission))
     },
@@ -202,6 +212,11 @@ export default {
           { prop: 'status', label: this.$t('status'), type: 'switch' }
         ]
       }
+    }
+  },
+  watch: {
+    '$store.getters.language'() {
+      this.getList()
     }
   },
   created() {

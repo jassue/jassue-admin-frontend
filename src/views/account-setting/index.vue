@@ -31,23 +31,27 @@ import { updateInfo } from '@/api/auth'
 export default {
   name: 'AccountSetting',
   data() {
-    var validatePass = (rule, value, callback) => {
-      if (value !== this.form.password) {
-        callback(this.$t('rule_pass_diff'))
-      } else {
-        callback()
-      }
-    }
-    var validateOldPass = (rule, value, callback) => {
-      if (this.form.password !== '' && this.form.old_password === '') {
-        callback(this.$t('rule_old_pass_req'))
-      } else {
-        callback()
-      }
-    }
     return {
-      form: {},
-      formRules: {
+      form: {}
+    }
+  },
+  computed: {
+    formRules() {
+      var validatePass = (rule, value, callback) => {
+        if (value !== this.form.password) {
+          callback(this.$t('rule_pass_diff'))
+        } else {
+          callback()
+        }
+      }
+      var validateOldPass = (rule, value, callback) => {
+        if (this.form.password !== '' && this.form.old_password === '') {
+          callback(this.$t('rule_old_pass_req'))
+        } else {
+          callback()
+        }
+      }
+      return {
         name: [
           { required: true, trigger: 'blur', message: this.$t('rule_nick_name_req') },
           { max: 10, trigger: 'blur', message: this.$t('rule_nick_name_len') }
@@ -64,15 +68,13 @@ export default {
           { min: 6, trigger: 'blur', message: this.$t('login.rule_pass_len') }
         ]
       }
-    }
-  },
-  computed: {
+    },
     formList() {
       return [
         { prop: 'username', label: this.$t('login.username') },
         { prop: 'name', label: this.$t('nick_name') },
         { prop: 'old_password', label: this.$t('old_password') },
-        { prop: 'password', label: this.$t('new_password'), tips: '若不修改保留为空' },
+        { prop: 'password', label: this.$t('new_password'), tips: this.$t('new_password_tips') },
         { prop: 'confirm_password', label: this.$t('confirm_password') }
       ]
     },
@@ -81,8 +83,10 @@ export default {
     ])
   },
   created() {
-    this.form.username = this.userInfo.username
-    this.form.name = this.userInfo.name
+    this.form = {
+      username: this.userInfo.username,
+      name: this.userInfo.name
+    }
   },
   methods: {
     handleUpdate(form) {

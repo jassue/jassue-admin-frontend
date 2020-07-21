@@ -15,7 +15,11 @@
     </div>
     <!-- 批量操作 -->
     <div v-if="selectionList.length > 0 && selectionBarList.length > 0" class="selection-bar">
-      <div class="selected—title">已选中<span class="selected—count">{{ selectionList.length }}</span>项</div>
+      <div class="selected—title">
+        {{ $t('selection_bar.selected') }}
+        <span class="selected—count">{{ selectionList.length }}</span>
+        {{ $t('selection_bar.item') }}
+      </div>
       <div class="selection-items-box">
         <div v-for="(item, index) in selectionBarList" :key="index" class="selection-item">
           <i :class="item.icon">
@@ -47,7 +51,7 @@
     <!-- 分页 -->
     <pagination v-show="total > 0" :total="total" :page.sync="query.page" :limit.sync="query.limit" @pagination="getList" />
     <!-- 添加/编辑弹出框 -->
-    <el-dialog :title="form.id ? '编辑角色' : '添加角色'" :visible.sync="dialogVisible" :before-close="dialogClose" width="800px">
+    <el-dialog :title="form.id ? $t('table.edit') : $t('table.add')" :visible.sync="dialogVisible" :before-close="dialogClose" width="800px">
       <el-form label-width="20%" ref="dialogForm" :model="form" :rules="formRules" class="dialog-form">
         <el-form-item
           v-for="(item, index) in formList"
@@ -78,8 +82,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogClose">取 消</el-button>
-        <el-button type="primary" @click="dialogSubmit">确 定</el-button>
+        <el-button @click="dialogClose">{{ $t('table.cancel') }}</el-button>
+        <el-button type="primary" @click="dialogSubmit">{{ $t('table.confirm') }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -96,19 +100,7 @@ export default {
   name: 'RoleList',
   components: { Pagination },
   data() {
-    const checkPermissionIds = (rule, value, callback) => {
-      if (!this.form.permission_ids.length > 0) {
-        callback(new Error('请至少选择一个权限'))
-      } else {
-        callback()
-      }
-    }
     return {
-      tableColumn: [
-        { prop: 'id', label: 'ID', width: '55' },
-        { prop: 'name', label: this.$t('name') },
-        { prop: 'created_at', label: this.$t('create_time') }
-      ],
       list: [],
       total: 0,
       loading: true,
@@ -121,7 +113,25 @@ export default {
       dialogVisible: false,
       permissionList: [],
       form: {},
-      formRules: {
+    }
+  },
+  computed: {
+    tableColumn() {
+      return [
+        { prop: 'id', label: 'ID', width: '55' },
+        { prop: 'name', label: this.$t('name') },
+        { prop: 'created_at', label: this.$t('create_time') }
+      ]
+    },
+    formRules() {
+      const checkPermissionIds = (rule, value, callback) => {
+        if (!this.form.permission_ids.length > 0) {
+          callback(new Error(this.$t('permission_req')))
+        } else {
+          callback()
+        }
+      }
+      return {
         name: [
           { required: true, trigger: 'blur', message: this.$t('rule_name_req') },
           { max: 20, trigger: 'blur', message: this.$t('rule_name_len') }
@@ -130,12 +140,10 @@ export default {
           { required: true, validator: checkPermissionIds, trigger: 'blur' }
         ]
       }
-    }
-  },
-  computed: {
+    },
     selectionBarList() {
       let barList = [
-        { icon: 'el-icon-delete', name: '删除', type: 'delete', permission: 'ROLE_DELETE'}
+        { icon: 'el-icon-delete', name: this.$t('table.delete'), type: 'delete', permission: 'ROLE_DELETE'}
       ]
       return barList.filter(item => item.permission === undefined || checkPermission(item.permission))
     },
@@ -144,6 +152,12 @@ export default {
         { prop: 'name', label: this.$t('name') },
         { prop: 'permission_ids', label: this.$t('permission_title'), type: 'tree' }
       ]
+    }
+  },
+  watch: {
+    '$store.getters.language'() {
+      this.getList()
+      this.getPermissionList()
     }
   },
   created() {
