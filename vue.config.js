@@ -23,7 +23,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: process.env.SERVER_DOMAIN_NAME,
+        target: process.env.SERVER_BASE_API,
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/api'
