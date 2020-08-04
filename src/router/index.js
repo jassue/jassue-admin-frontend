@@ -2,27 +2,17 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
-import Layout from '@/layout/'
-import Login from '@/views/login/'
-import Page404 from '@/views/error-page/404'
-
-import Redirect from '@/views/redirect/'
-import Dashboard from '@/views/dashboard/'
-import AccountSetting from '@/views/account-setting/'
-import UserList from '@/views/users/List'
-import RoleList from '@/views/roles/List'
-
 export const constantRouterMap = [
   {
     path: '/login',
     name: 'Login',
-    component: Login,
+    component: () => import('@/views/login/'),
     hidden: true
   },
   {
     path: '/404',
     name: 'Page404',
-    component: Page404,
+    component: () => import('@/views/error-page/404'),
     hidden: true
   }
 ]
@@ -30,41 +20,41 @@ export const constantRouterMap = [
 export const asyncRouterMap = [
   {
     path: '/redirect',
-    component: Layout,
+    component: () => import('@/layout/'),
     hidden: true,
     children: [
       {
         path: '/redirect/:path*',
-        component: Redirect
+        component: () => import('@/views/redirect/')
       }
     ]
   },
   {
     path: '/account',
-    component: Layout,
+    component: () => import('@/layout/'),
     hidden: true,
     children: [{
       path: 'settings',
-      component: AccountSetting,
+      component: () => import('@/views/account-setting/'),
       name: 'AccountSetting',
       meta: { title: 'account_setting' }
     }]
   },
   {
     path: '/',
-    component: Layout,
+    component: () => import('@/layout/'),
     redirect: '/dashboard',
     meta: { permission: 'DASHBOARD' },
     children: [{
       path: 'dashboard',
-      component: Dashboard,
+      component: () => import('@/views/dashboard/'),
       name: 'Dashboard',
       meta: { title: 'dashboard', icon: 'dashboard', permission: 'DASHBOARD' }
     }]
   },
   {
     path: '/administrator',
-    component: Layout,
+    component: () => import('@/layout/'),
     redirect: '/administrator/users',
     name: 'Administrator',
     meta: {
@@ -74,13 +64,13 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'users',
-        component: UserList,
+        component: () => import('@/views/users/List'),
         name: 'UserList',
         meta: { title: 'users', icon: 'user', permission: 'ADMIN_VIEW' }
       },
       {
         path: 'roles',
-        component: RoleList,
+        component: () => import('@/views/roles/List'),
         name: 'RoleList',
         meta: { title: 'roles', icon: 'role', permission: 'ROLE_VIEW' }
       }
