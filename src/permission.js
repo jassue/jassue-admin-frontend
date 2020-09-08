@@ -22,6 +22,7 @@ router.beforeEach(async(to, from, next) => {
       } else {
         next({ path: firstRoute.path + '/' + firstRoute.children[0].path })
       }
+      NProgress.done()
     } else {
       if (store.getters.permissions.length === 0) {
         try {
@@ -37,6 +38,7 @@ router.beforeEach(async(to, from, next) => {
           store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
+          NProgress.done()
         }
       } else {
         next()
@@ -47,6 +49,7 @@ router.beforeEach(async(to, from, next) => {
       next()
     } else {
       next('/login')
+      NProgress.done()
     }
   }
 })

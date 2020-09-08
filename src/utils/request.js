@@ -7,7 +7,7 @@ import routerInstance from '@/router'
 
 // axios instance
 const instance = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API + '/api/admin', // baseUrl
+  baseURL: process.env.VUE_APP_BASE_API, // baseUrl
   timeout: 5000, // request timeout
   headers: { 'X-Requested-With': 'XMLHttpRequest' }
 })
