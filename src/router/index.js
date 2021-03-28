@@ -53,26 +53,26 @@ export const asyncRouterMap = [
     }]
   },
   {
-    path: '/administrator',
+    path: '/personnel',
     component: () => import('@/layout/'),
-    redirect: '/administrator/users',
-    name: 'Administrator',
+    redirect: '/personnel/staff_dep',
+    name: 'Personnel',
     meta: {
-      title: 'administrator',
-      icon: 'admin'
+      title: 'personnel',
+      icon: 'peoples'
     },
     children: [
       {
-        path: 'users',
-        component: () => import('@/views/users/List'),
-        name: 'UserList',
-        meta: { title: 'users', icon: 'user', permission: 'ADMIN_VIEW' }
+        path: 'staff_dep',
+        component: () => import('@/views/staff_dep/'),
+        name: 'StaffDep',
+        meta: { title: 'staff_dep', icon: 'tree', permission: 'STAFF_DEPT_VIEW' }
       },
       {
-        path: 'roles',
+        path: 'admin_role',
         component: () => import('@/views/roles/List'),
         name: 'RoleList',
-        meta: { title: 'roles', icon: 'role', permission: 'ROLE_VIEW' }
+        meta: { title: 'admins', icon: 'user', permission: 'ADMIN_ROLE_VIEW' }
       }
     ]
   },

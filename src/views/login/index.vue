@@ -4,12 +4,12 @@
       <h2 class="title">
         {{ $t('login.title') }}
       </h2>
-      <lang-select class="set-language" />
-      <el-form-item prop="username">
+      <lang-select v-if="multiLanguage" class="set-language" />
+      <el-form-item prop="mobile">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input v-model="loginForm.username" size="medium" name="username" type="text" auto-complete="on" :placeholder="$t('login.username')" />
+        <el-input v-model="loginForm.mobile" size="medium" name="mobile" type="text" auto-complete="on" :placeholder="$t('login.username')" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
@@ -38,28 +38,29 @@ export default {
   data() {
     return {
       loginForm: {
-        username: 'admin',
+        mobile: '18888888888',
         password: '123456'
       },
       loginRules: {
-        username: [
+        mobile: [
           { required: true, trigger: 'blur', message: this.$i18n.t('login.rule_username_req') },
-          { min: 3, max: 16, trigger: 'blur', message: this.$i18n.t('login.rule_username_len') }
+          { len: 11, trigger: 'blur', message: this.$i18n.t('login.rule_username_len') }
         ],
         password: [
           { required: true, trigger: 'blur', message: this.$i18n.t('login.rule_pass_req') },
-          { required: true, trigger: 'blur', message: this.$i18n.t('login.rule_pass_len') }
+          { min: 6, trigger: 'blur', message: this.$i18n.t('login.rule_pass_len') }
         ]
       },
       pwdType: 'password',
       showPwdIcon: 'eye',
-      redirect: undefined,
+      redirect: '',
       otherQuery: {}
     }
   },
   computed: {
     ...mapGetters([
-      'addRoutes'
+      'addRoutes',
+      'multiLanguage'
     ])
   },
   watch: {
@@ -120,14 +121,14 @@ export default {
         .el-input {
             display: inline-block;
             width: 85%;
-            height: 45px;
+            height: 48px;
             input {
                 background: transparent;
                 border: 0px;
                 -webkit-appearance: none;
                 border-radius: 0px;
                 padding: 12px 5px 12px 15px;
-                height: 45px;
+                height: 48px;
                 &:-webkit-autofill {
                     -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
                     -webkit-text-fill-color: #606266 !important;

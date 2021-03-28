@@ -22,10 +22,11 @@ export default {
     handleSetLanguage(language) {
       this.$i18n.locale = language
       this.$store.dispatch('app/setLanguage', language)
-      this.$message({
-        message: this.$i18n.t('lang.set_lang_success'),
-        type: 'success'
-      })
+      window.location.reload()
+      // this.$message({
+      //   message: this.$i18n.t('lang.set_lang_success'),
+      //   type: 'success'
+      // })
     }
   }
 }

@@ -153,3 +153,20 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+/**
+ * 二进制图片转为base64编码
+ * @param {Blob} file 
+ */
+export function imageToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      resolve(reader.result)
+    }
+    reader.onerror = error => {
+      reject(error)
+    }
+  })
+}

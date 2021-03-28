@@ -26,3 +26,85 @@
   width: 100%;
   height: 100%;
 }
+
+@mixin cElTree($cTreeText:#409eff, $cTreeItemHover:#ebf5ff, $cTreeItemSelectBorder:#46cdcf, $currentActive:1) {
+  .el-tree /deep/ {
+    background-color: inherit;
+    .el-tree-node {
+      color: inherit;
+    }
+    @if $currentActive == 1 {
+      .el-tree-node.is-current > .el-tree-node__content {
+        background-color: $cTreeItemHover;
+        border-right: 2px solid $cTreeItemSelectBorder;
+        color: $cTreeText;
+      }
+    }
+    .el-tree-node > .el-tree-node__content {
+      margin-bottom: 5px;
+      .el-tree-node__expand-icon {
+        color: $cTreeText;
+        &.is-leaf {
+          color: transparent;
+        }
+      }
+      &:hover {
+        background-color: $cTreeItemHover;
+      }
+      .custom-tree-node {
+        font-size: 14px;
+        .el-icon-more {
+          color: $cTreeText;
+          font-size: 12px;
+          transform: rotate(90deg);
+        }
+        .tree-icon {
+          color: $cTreeText;
+          font-size: 12px;
+          margin-right: 5px;
+          vertical-align: baseline;
+        }
+      }
+    }
+  }
+}
+
+@mixin cTab($width:100%, $height:40px, $mainColor:#409eff) {
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    width: $width;
+    .tab {
+      flex: 1;
+      height: $height;
+      line-height: $height;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      &:hover {
+        color: $mainColor;
+      }
+      &::before {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        content: "";
+        background: $mainColor;
+        display: block;
+        height: 3px;
+        transform-origin: bottom;
+        transform: scaleY(0);
+        opacity: 0;
+        transition: all .3s ease-in;
+      }
+      &.active {
+        color: $mainColor;
+        &::before {
+          transform: scaleY(1);
+          opacity: 1;
+          transition: all .3s ease-out;
+        }
+      }
+    }
+  }
+}

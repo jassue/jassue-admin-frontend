@@ -5,7 +5,7 @@
     <div class="right-menu">
       <template v-if="device !== 'mobile'">
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
-        <lang-select class="right-menu-item hover-effect" />
+        <lang-select v-if="multiLanguage" class="right-menu-item hover-effect" />
       </template>
       <el-dropdown class="right-menu-item hover-effect userinfo-container">
         <div class="el-dropdown-link">
@@ -43,7 +43,8 @@ export default {
     ...mapGetters([
       'sidebar',
       'userInfo',
-      'device'
+      'device',
+      'multiLanguage'
     ])
   },
   methods: {

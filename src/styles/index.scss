@@ -4,143 +4,232 @@
 @import 'sidebar.scss';
 
 html {
-    height: 100%;
-    box-sizing: border-box;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 body {
-    height: 100%;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
-    margin: 0;
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  margin: 0;
 }
 
 #app {
-    height: 100%;
+  height: 100%;
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 a:focus,
 a:active {
-    outline: none;
+  outline: none;
 }
 
 a,
 a:focus,
 a:hover {
-    cursor: pointer;
-    color: inherit;
-    text-decoration: none;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
 }
 
 div:focus {
-    outline: none;
+  outline: none;
 }
 
 .clearfix {
-    &:after {
-        visibility: hidden;
-        display: block;
-        font-size: 0;
-        content: " ";
-        clear: both;
-        height: 0;
-    }
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
 }
 
 //main-container全局样式
 .app-container {
-    padding: 20px;
+  padding: 20px;
 }
 
 .filter-container {
-    padding-bottom: 8px;
+  padding-bottom: 8px;
 }
 
 .text-center {
-    text-align: center
+  text-align: center
 }
 
 form .tips {
-    color:#909399;
-    padding-left: 5px;
+  color:#909399;
+  padding-left: 5px;
 }
 
 .el-page-header__content {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .el-divider--horizontal {
-    margin: 10px 0 24px;
+  margin: 10px 0 24px;
 }
 
 .el-table th:first-child > .cell {
-    padding: 0 14px !important;
+  padding: 0 14px !important;
 }
 
 .el-table--border th.is-leaf:first-child > .cell {
-    padding: 0 14px 0px 10px !important;
+  padding: 0 14px 0px 10px !important;
 }
 
 .selection-bar {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 13px 12px;
+  height: 40px;
+  color: #777;
+  .selected—title {
+    flex-shrink: 0;
+    padding-right: 20px;
+    border-right: 1px solid #e6e6e6;
+    .selected—count {
+      color: #409EFF;
+    }
+  }
+  .selection-items-box {
     display: flex;
     align-items: center;
-    font-size: 12px;
-    padding: 13px 12px;
-    height: 40px;
-    color: #777;
-    .selected—title {
-        flex-shrink: 0;
-        padding-right: 20px;
-        border-right: 1px solid #e6e6e6;
-        .selected—count {
+    overflow-x: auto;
+    overflow-y: hidden;
+    .selection-item {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      text-align: left;
+      width: auto;
+      padding: 15px;
+      .selection-item-name {
+        margin-left: 3px;
+        cursor: pointer;
+        &:hover {
             color: #409EFF;
         }
+      }
     }
-    .selection-items-box {
-        display: flex;
-        align-items: center;
-        overflow-x: auto;
-        overflow-y: hidden;
-        .selection-item {
-            display: flex;
-            align-items: center;
-            flex-direction: row;
-            text-align: left;
-            width: auto;
-            padding: 15px;
-            .selection-item-name {
-                margin-left: 3px;
-                cursor: pointer;
-                &:hover {
-                    color: #409EFF;
-                }
-            }
-        }
-    }
+  }
 }
 
 .tooltip-icon {
-    margin-left: 3px;
+  margin-left: 3px;
 }
 
 .el-form .el-form-item__label {
-    padding-bottom: 0px;
+  padding-bottom: 0px;
 }
 
 .dialog-form {
-    .el-form-item {
-      margin-bottom: 8px;
-      padding-bottom: 15px;
-      .el-form-item__content {
-        width: 60%;
+  .el-form-item {
+    margin-bottom: 8px;
+    padding-bottom: 15px;
+    .el-form-item__content {
+      width: 60%;
+    }
+  }
+}
+
+.dialog-tips {
+  margin: 15px 20px 20px;
+  padding: 0;
+  color: #939393;
+  font-size: 12px;
+  li + li {
+    margin-top: 6px;
+  }
+  .template-link {
+    color: #409EFF;
+  }
+}
+
+.el-upload, .el-upload-dragger {
+  width: 100%;
+  height: 100%;
+}
+
+.upload-excel {
+  height: 300px;
+  .el-upload-dragger {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .content {
+      width: 100%;
+      .el-icon-upload {
+        margin: 0 0 20px;
+      }
+      .el-icon-circle-check {
+        font-size: 40px;
+        color: #409EFF;
+      }
+      .success-tip {
+        margin: 20px 0;
+        color: #606266;
+        .fail {
+          color: #e64340;
+        }
       }
     }
+  }
+}
+
+.el-drawer__wrapper {
+  z-index: 40000 !important;
+  .el-drawer__header {
+    margin-bottom: 0;
+    padding: 15px 20px;
+    border-bottom: 1px solid #d9d9d9;
+    .el-drawer__close-btn {
+      &:focus {
+        outline: unset;
+      }
+    }
+  }
+  .el-drawer__body {
+    overflow-y: scroll;
+  }
+  .el-drawer.btt {
+    .drawer-container {
+        padding: 15px 30px 20px;
+    }
+  }
+  .info-content {
+    padding: 15px 20px;
+    .btn-group {
+      border-top: 1px solid #e9e9e9;
+      padding-top: 15px;
+      margin-top: 15px;
+    }
+  }
+}
+.el-drawer__container .el-drawer .el-drawer__header {
+  span, span:focus {
+    outline: unset !important;
+  }
+}
+
+// dialog自定义样式
+.c-dialog {
+  .el-dialog__header {
+    border-bottom: 1px solid #e9e9e9;
+  }
+  .el-dialog__body {
+    padding: 12px 20px;
+  }
 }

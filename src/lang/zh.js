@@ -1,14 +1,41 @@
 module.exports = {
   login: {
     title: '管理系统',
-    username: '用户名',
+    username: '手机号',
     password: '密码',
-    rule_username_req: '请输入用户名',
-    rule_username_len: '长度在3到16个字符之间',
+    rule_username_req: '请输入手机号',
+    rule_username_len: '请输入正确的手机号',
     rule_pass_req: '请输入密码',
     rule_pass_len: '长度不能低于6个字符',
     login: '登录',
     login_fail: '账号或密码错误'
+  },
+  personnel: {
+    name: '姓名',
+    mobile: '手机号',
+    email: '邮箱',
+    job_number: '工号',
+    position: '职位',
+    gender: '性别',
+    dept: '部门'
+  },
+  contact: {
+    update_name: '修改名称',
+    add_sub_dept: '添加子部门',
+    op_dept: '调整部门',
+    search_member: '搜索成员',
+    creator: '创建者',
+    all_member: '全部成员',
+    please_input_name: '请输入名称',
+    name: '名称',
+    add_member: '添加成员',
+    please_checked_gender: '请选择性别',
+    please_checked_dept: '请选择部门'
+  },
+  widget: {
+    please_checked_dept: '请选择部门',
+    dept_list: '部门列表',
+    dept_title: '组织架构'
   },
   lang: {
     set_lang_success: '切换语言成功！'
@@ -16,13 +43,9 @@ module.exports = {
   route: {
     dashboard: '首页',
     account_setting: '个人设置',
-    administrator: '管理员',
-    users: '管理员列表',
-    roles: '角色列表',
-    UserCreate: '添加管理员',
-    UserEdit: '编辑管理员',
-    RoleCreate: '添加角色',
-    RoleEdit: '编辑角色'
+    personnel: '人员管理',
+    staff_dep: '通讯录',
+    admins: '管理员'
   },
   table: {
     search: '搜索',
@@ -69,9 +92,6 @@ module.exports = {
   nick_name: '昵称',
   new_password: '新密码',
   confirm_password: '确认密码',
-  rule_nick_name_req: '请输入昵称',
-  rule_nick_name_len: '昵称不能超过10个字符',
-  rule_username_len: '用户名不能超过16个字符',
   rule_pass_diff: '两次输入的密码不一致',
   update_success: '更新成功',
   password_tip: '若不修改保留为空.',

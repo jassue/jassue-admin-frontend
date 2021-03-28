@@ -6,6 +6,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import i18n from './lang'
+import permission from './directive/permission'
 import './utils/icons'
 import './permission'
 
@@ -15,6 +16,9 @@ import * as filters from './filters' // global filters
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
+// register global directives
+Vue.directive('permission', permission)
 
 Vue.use(ElementUI, {
   size: 'small',

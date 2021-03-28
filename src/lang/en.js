@@ -1,14 +1,41 @@
 module.exports = {
   login: {
     title: 'Management system',
-    username: 'Username',
+    username: 'Mobile',
     password: 'Password',
-    rule_username_req: 'Please enter user name',
-    rule_username_len: 'Length between 3 and 16 characters',
+    rule_username_req: 'Please enter phone number',
+    rule_username_len: 'Please enter a valid phone number',
     rule_pass_req: 'Please enter your password',
     rule_pass_len: 'Cannot be less than 6 characters in length',
     login: 'Sign in',
     login_fail: 'Incorrect username or password'
+  },
+  personnel: {
+    name: 'Name',
+    mobile: 'Mobile',
+    email: 'Email',
+    job_number: 'Job number',
+    position: 'Position',
+    gender: 'Gender',
+    dept: 'Department'
+  },
+  contact: {
+    update_name: 'Edit name',
+    add_sub_dept: 'Add sub-department',
+    add_member: 'Add member',
+    op_dept: 'Adjustment department',
+    search_member: 'Search for members',
+    creator: 'Creator',
+    all_member: 'All members',
+    please_input_name: 'Please enter a name',
+    name: 'Name',
+    please_checked_gender: 'Please select gender',
+    please_checked_dept: 'Please select a department'
+  },
+  widget: {
+    please_checked_dept: 'Please select a department',
+    dept_list: 'Department list',
+    dept_title: 'Organization'
   },
   lang: {
     set_lang_success: 'Switch language successfully!'
@@ -16,13 +43,9 @@ module.exports = {
   route: {
     dashboard: 'Dashboard',
     account_setting: 'Personal settings',
-    administrator: 'Administrator',
-    users: 'Administrator List',
-    roles: 'Role list',
-    UserCreate: 'Add administrator',
-    UserEdit: 'Edit administrator',
-    RoleCreate: 'Add role',
-    RoleEdit: 'Edit role'
+    personnel: 'Personnel management',
+    staff_dep: 'Address book',
+    admins: 'Administrator'
   },
   table: {
     search: 'Search',
@@ -69,9 +92,6 @@ module.exports = {
   nick_name: 'Nickname',
   new_password: 'New password',
   confirm_password: 'Confirm password',
-  rule_nick_name_req: 'Please enter a nickname.',
-  rule_nick_name_len: 'Nickname cannot exceed 10 characters.',
-  rule_username_len: 'Username cannot exceed 16 characters',
   rule_pass_diff: 'Passwords entered twice are inconsistent.',
   update_success: 'Success',
   password_tip: 'Leave blank if not modified.',

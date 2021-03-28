@@ -26,14 +26,15 @@ const mutations = {
 
 const actions = {
   async login({ commit }, userInfo) {
-    const { username, password } = userInfo
-    const { access_token } = await login({ username: username.trim(), password: password })
+    const { mobile, password } = userInfo
+    const { access_token } = await login({ mobile: mobile.trim(), password: password })
     commit('SET_TOKEN', access_token)
     setToken(access_token)
   },
   async getInfo({ commit }) {
     const data = await getInfo()
-    commit('SET_INFO', { id: data.id, name: data.name, username: data.username })
+    data.permissions = data.permissions.map(item => item.key)
+    commit('SET_INFO', { id: data.id, name: data.name, mobile: data.mobile })
     commit('SET_ROLES', data.roles.map(item => item.name))
     commit('SET_PERMISSIONS', data.permissions)
     return data

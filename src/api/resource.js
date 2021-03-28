@@ -4,44 +4,43 @@ class Resource {
   constructor(uri) {
     this.uri = uri
   }
-  list(query) {
+  list(params) {
     return request({
-      url: '/' + this.uri,
-      method: 'get',
-      params: query
+      url: '/' + this.uri + '/list',
+      method: 'post',
+      data: params
     })
   }
   get(id) {
     return request({
-      url: '/' + this.uri + '/' + id,
-      method: 'get'
-    })
-  }
-  store(resource) {
-    return request({
-      url: '/' + this.uri,
+      url: '/' + this.uri + '/detail',
       method: 'post',
-      data: resource
+      data: {
+        id: id
+      }
     })
   }
-  update(id, resource) {
+  create(params) {
     return request({
-      url: '/' + this.uri + '/' + id,
-      method: 'put',
-      data: resource
+      url: '/' + this.uri + '/create',
+      method: 'post',
+      data: params
     })
   }
-  destroy(id) {
+  update(params) {
     return request({
-      url: '/' + this.uri + '/' + id,
-      method: 'delete'
+      url: '/' + this.uri + '/update',
+      method: 'post',
+      data: params
     })
   }
-  batchDelete(data) {
+  delete(ids) {
     return request({
-      url: '/' + this.uri + '/batch',
-      method: 'delete',
-      data: data
+      url: '/' + this.uri + '/delete',
+      method: 'post',
+      data: {
+        ids: ids
+      }
     })
   }
 }

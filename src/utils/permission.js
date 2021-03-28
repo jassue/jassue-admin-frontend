@@ -8,7 +8,7 @@ export default function checkPermission(permission) {
     }
     return false
   } else {
-    console.error(`need permissions! Like v-permission="DASHBOARD"`)
+    console.error(`need permissions! Like checkPermission("DASHBOARD")`)
     return false
   }
 }
