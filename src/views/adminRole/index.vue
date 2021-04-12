@@ -55,7 +55,7 @@
             :width="col.width"
             show-overflow-tooltip>
             <template slot-scope="scope">
-              <div v-if="col.prop === 'name'">
+              <div style="display: flex;" v-if="col.prop === 'name'">
                 <div style="width: 25px; height: 25px; display: inline-block; margin-right: 5px;">
                   <avatar-cropper :avatar-url="scope.row['staff']['avatar_url']" :empty-text="scope.row[col.prop].substring(0,1)" :font-size="12.5" :show-change="false"></avatar-cropper>
                 </div>
