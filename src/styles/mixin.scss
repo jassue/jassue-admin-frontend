@@ -27,7 +27,7 @@
   height: 100%;
 }
 
-@mixin cElTree($cTreeText:#409eff, $cTreeItemHover:#ebf5ff, $cTreeItemSelectBorder:#46cdcf, $currentActive:1) {
+@mixin cElTree($cTreeText:#409eff, $cTreeItemHover:#ebf5ff, $cTreeItemSelectBorder:#409eff, $currentActive:1) {
   .el-tree /deep/ {
     background-color: inherit;
     .el-tree-node {

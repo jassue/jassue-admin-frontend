@@ -12,7 +12,15 @@
         </ul>
       </slot>
     </div>
-    <el-dialog custom-class="c-dialog" :title="$t('widget.dept_list')" :visible.sync="dialog" :destroy-on-close="true" width="648px" :append-to-body="isAppendToBody" top="20px" :before-close="dialogClose">
+    <el-dialog
+      custom-class="c-dialog"
+      width="648px"
+      top="20px"
+      :title="$t('widget.dept_list')"
+      :visible.sync="dialog"
+      :destroy-on-close="true"
+      :append-to-body="isAppendToBody"
+      :before-close="dialogClose">
       <ul class="panel-container">
         <li v-for="(item, index) in checkedDepts" :key="index" class="select-item">
           <svg-icon icon-class="tree" />{{item.name}}<i class="el-icon-close item-del" @click="itemDelete(index)"></i>

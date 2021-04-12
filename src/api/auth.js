@@ -10,7 +10,7 @@ export function login(data) {
 
 export function getInfo() {
   return request({
-    url: '/admin',
+    url: '/admin/info',
     method: 'post'
   })
 }
@@ -19,13 +19,5 @@ export function logout() {
   return request({
     url: '/logout',
     method: 'post'
-  })
-}
-
-export function updateInfo(data) {
-  return request({
-    url: '/update-info',
-    method: 'put',
-    data: data
   })
 }

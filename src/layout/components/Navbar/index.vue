@@ -9,7 +9,10 @@
       </template>
       <el-dropdown class="right-menu-item hover-effect userinfo-container">
         <div class="el-dropdown-link">
-          <img src="@/assets/logo.png" class="user-avatar">
+          <!-- <img src="@/assets/logo.png" class="user-avatar"> -->
+          <div class="user-avatar" style="display:inline-block;">
+            <avatar-cropper :avatar-url="userInfo.avatar_url" :font-size="12" :empty-text="userInfo.name.substring(0,1)" :show-change="false"></avatar-cropper>
+          </div>
           <span v-if="device !== 'mobile'">{{ userInfo.name }}</span>
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -35,10 +38,11 @@ import Hamburger from '@/components/Hamburger'
 import Breadcrumb from '@/components/Breadcrumb'
 import Screenfull from '@/components/Screenfull'
 import LangSelect from '@/components/LangSelect'
+import AvatarCropper from '@/components/AvatarCropper'
 
 export default {
   name: 'Navbar',
-  components: { Hamburger, Breadcrumb, Screenfull, LangSelect },
+  components: { Hamburger, Breadcrumb, Screenfull, LangSelect, AvatarCropper },
   computed: {
     ...mapGetters([
       'sidebar',
@@ -120,6 +124,7 @@ export default {
           width: 30px;
           height: 30px;
           vertical-align: middle;
+          margin-right: 5px;
         }
       }
     }

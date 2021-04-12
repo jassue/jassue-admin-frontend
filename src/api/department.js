@@ -6,14 +6,6 @@ class DepartmentResource extends Resource {
     super('dept')
   }
 
-  listStaff(data) {
-    return request({
-      url: '/' + this.uri + '/list_staff',
-      method: 'post',
-      data: data
-    })
-  }
-
   updateName(data) {
     return request({
       url: '/' + this.uri + '/update_name',
@@ -26,7 +18,7 @@ class DepartmentResource extends Resource {
     return request({
       url: '/' + this.uri + '/delete',
       method: 'post',
-      data: {id: id}
+      data: { id: id }
     })
   }
 }

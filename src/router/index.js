@@ -12,7 +12,7 @@ export const constantRouterMap = [
   {
     path: '/404',
     name: 'Page404',
-    component: () => import('@/views/error-page/404'),
+    component: () => import('@/views/errorPage/404'),
     hidden: true
   }
 ]
@@ -35,7 +35,7 @@ export const asyncRouterMap = [
     hidden: true,
     children: [{
       path: 'settings',
-      component: () => import('@/views/account-setting/'),
+      component: () => import('@/views/accountSetting/'),
       name: 'AccountSetting',
       meta: { title: 'account_setting' }
     }]
@@ -55,7 +55,7 @@ export const asyncRouterMap = [
   {
     path: '/personnel',
     component: () => import('@/layout/'),
-    redirect: '/personnel/staff_dep',
+    redirect: '/personnel/staffDep',
     name: 'Personnel',
     meta: {
       title: 'personnel',
@@ -64,14 +64,14 @@ export const asyncRouterMap = [
     children: [
       {
         path: 'staff_dep',
-        component: () => import('@/views/staff_dep/'),
+        component: () => import('@/views/staffDep/'),
         name: 'StaffDep',
         meta: { title: 'staff_dep', icon: 'tree', permission: 'STAFF_DEPT_VIEW' }
       },
       {
         path: 'admin_role',
-        component: () => import('@/views/roles/List'),
-        name: 'RoleList',
+        component: () => import('@/views/adminRole/'),
+        name: 'AdminRole',
         meta: { title: 'admins', icon: 'user', permission: 'ADMIN_ROLE_VIEW' }
       }
     ]

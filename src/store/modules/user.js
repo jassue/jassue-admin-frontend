@@ -34,7 +34,7 @@ const actions = {
   async getInfo({ commit }) {
     const data = await getInfo()
     data.permissions = data.permissions.map(item => item.key)
-    commit('SET_INFO', { id: data.id, name: data.name, mobile: data.mobile })
+    commit('SET_INFO', data.staff)
     commit('SET_ROLES', data.roles.map(item => item.name))
     commit('SET_PERMISSIONS', data.permissions)
     return data

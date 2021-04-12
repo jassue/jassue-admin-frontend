@@ -3,13 +3,23 @@ import Resource from '@/api/resource'
 
 class RoleResource extends Resource {
   constructor() {
-    super('roles')
+    super('role')
   }
 
   getPermissionTree() {
     return request({
       url: '/' + this.uri + '/permissions',
-      method: 'get'
+      method: 'post'
+    })
+  }
+
+  delete(id) {
+    return request({
+      url: '/' + this.uri + '/delete',
+      method: 'post',
+      data: {
+        role_id: id
+      }
     })
   }
 }

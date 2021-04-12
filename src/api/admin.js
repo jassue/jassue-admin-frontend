@@ -3,28 +3,21 @@ import Resource from '@/api/resource'
 
 class AdminResource extends Resource {
   constructor() {
-    super('admins')
+    super('admin')
   }
 
-  toggleStatus(data) {
+  setPassword(data) {
     return request({
-      url: '/' + this.uri + '/toggle-status',
-      method: 'patch',
+      url: '/' + this.uri + '/set_password',
+      method: 'post',
       data: data
-    })
-  }
-
-  getRoleListForCreateOrUpdate() {
-    return request({
-      url: '/' + this.uri + '/roles',
-      method: 'get'
     })
   }
 
   resetPassword(data) {
     return request({
-      url: '/' + this.uri + '/batch/password',
-      method: 'patch',
+      url: '/' + this.uri + '/reset_password',
+      method: 'post',
       data: data
     })
   }

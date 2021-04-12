@@ -13,6 +13,14 @@ class WidgetResource extends Resource {
       data: data
     })
   }
+
+  listStaff(data) {
+    return request({
+      url: '/' + this.uri + '/list_staff',
+      method: 'post',
+      data: data
+    })
+  }
 }
 
 export default WidgetResource

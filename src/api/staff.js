@@ -25,25 +25,10 @@ class StaffResource extends Resource {
     })
   }
 
-  toggleStatus(data) {
+  updatePersonalInfo(data) {
     return request({
-      url: '/' + this.uri + '/toggle-status',
-      method: 'patch',
-      data: data
-    })
-  }
-
-  getRoleListForCreateOrUpdate() {
-    return request({
-      url: '/' + this.uri + '/roles',
-      method: 'get'
-    })
-  }
-
-  resetPassword(data) {
-    return request({
-      url: '/' + this.uri + '/batch/password',
-      method: 'patch',
+      url: '/' + this.uri + '/update_self',
+      method: 'post',
       data: data
     })
   }

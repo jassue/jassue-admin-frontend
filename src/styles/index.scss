@@ -57,7 +57,13 @@ div:focus {
 
 //main-container全局样式
 .app-container {
-  padding: 20px;
+  margin: 20px;
+}
+
+.common-container {
+  margin: 20px;
+  padding: 16px 0;
+  background-color: #fff;
 }
 
 .filter-container {
@@ -231,5 +237,26 @@ form .tips {
   }
   .el-dialog__body {
     padding: 12px 20px;
+  }
+}
+
+// el-tabs自定义样式
+.el-tabs.c-tabs {
+  .el-tabs__item {
+    width: 224px;
+    &.is-active {
+      background-color: #e6f7ff;
+    }
+    &.is-left {
+      text-align: center;
+    }
+  }
+  .tab-content {
+    padding: 8px 40px;
+    .tab-title {
+      font-weight: 700;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
   }
 }

@@ -4,6 +4,7 @@
       <el-avatar v-if="!avatarUrl" class="avatar-none" :style="{'font-size': fontSize+'px'}">{{ emptyText }}</el-avatar>
       <el-avatar v-else class="avatar" :src="avatarUrl"></el-avatar>
       <el-upload
+        ref="avatarUpload"
         v-if="showChange"
         class="avatar-uploader"
         :show-file-list="false"
@@ -37,7 +38,9 @@
 <script>
 import { VueCropper }  from 'vue-cropper' 
 import { imageToBase64 } from '@/utils'
+import CommonResource from '@/api/common'
 
+const commonResource = new CommonResource()
 export default {
   props: {
     avatarUrl: {
@@ -73,70 +76,73 @@ export default {
       this.dialogVisible = false
     },
     uploadImg() {
-      this.$refs.cropper.getCropBlob(data => {
-        this.$emit('save', data)
+      this.$refs.cropper.getCropBlob(async (data) => {
+        const result = await commonResource.imageUpload(data, 'avatar')
+        this.$emit('update:avatarUrl', result.url)
+        this.$emit('on-success', result)
       })
       this.dialogVisible = false
+    },
+    choseImg() {
+      if (this.showChange) {
+        this.$refs.avatarUpload.$el.firstChild.click()
+      }
     }
   }
 }
 </script>
 
-<style lang="scss">
-.c-dialog {
-  .el-dialog__body {
-    .tip {
-      margin-bottom: 10px;
-      color: #91a1b7;
+<style lang="scss" scoped>
+.avatar-cropper {
+  width: 100%;
+  height: 100%;
+  .avatar-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    .avatar-none {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      background-color: #409eff;
+      justify-content: center;
+      align-items: center;
     }
+    .avatar {
+      height: 100%;
+      width: 100%;
+      background-color: transparent;
+    }
+    .avatar-uploader {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0,0,0,.4);
+      border-radius: 50%;
+      display: none;
+      text-align: center;
+      /deep/ .el-upload {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .el-icon-camera-solid {
+          color: #fff;
+        }
+      }
+    }
+    &:hover .avatar-uploader {
+      display: block;
+    }  
+  }
+  .tip {
+    margin-bottom: 10px;
+    color: #91a1b7;
   }
   .cropper-container {
     width: 400px;
     height: 300px;
   }
-}
-</style>
-
-<style lang="scss" scoped>
-.avatar-cropper {
-  width: 100%;
-  height: 100%;
-}
-.avatar-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  @mixin avatar {
-    height: 100%;
-    width: 100%;
-    vertical-align: middle;
-    line-height: 2;
-  }
-  .avatar-none {
-    @include avatar;
-    background-color: #409eff;
-  }
-  .avatar {
-    @include avatar;
-    background-color: transparent;
-  }
-  .avatar-uploader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0,0,0,.4);
-    border-radius: 50%;
-    display: none;
-    text-align: center;
-    .el-icon-camera-solid {
-      color: #fff;
-      line-height: 1.67;
-    }
-  }
-  &:hover .avatar-uploader {
-    display: block;
-  }  
 }
 </style>
