@@ -8,7 +8,7 @@
       :close-on-click-modal="false"
       :before-close="handleCancel">
       <el-form
-        label-width="20%"
+        label-width="14%"
         ref="form"
         :model="form"
         :rules="formRules">
