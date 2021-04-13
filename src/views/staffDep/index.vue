@@ -253,12 +253,18 @@ export default {
       }
     },
     async setDept(departments) {
-      await staffResource.setDept(
-        this.selectionList.map(item => item.id),
-        departments.map(item => item.id)
-      )
-      this.$message.success(this.$t('table.operation_success'))
-      this.$refs.deptTree.$el.firstChild.click()
+      if (departments.map(item => item.id).length === 0) {
+        this.$message.error('请至少选择一个部门')
+        return
+      }
+      try {
+        await staffResource.setDept(
+          this.selectionList.map(item => item.id),
+          departments.map(item => item.id)
+        )
+        this.$message.success(this.$t('table.operation_success'))
+        this.getStaffList()
+      } catch(e) {}
     },
     deleteStaff() {
       if (this.selectionList.length === 0) {
@@ -277,7 +283,7 @@ export default {
       ).then(async() => {
         await staffResource.delete(ids)
         this.staffQuery.page = 1
-        this.$refs.deptTree.$el.firstChild.click()
+        this.getStaffList()
         this.$message.success(this.$t('table.operation_success'))
       }).catch(() => {})
     },

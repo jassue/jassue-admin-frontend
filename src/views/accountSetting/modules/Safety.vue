@@ -20,7 +20,7 @@
             <el-input v-model="form[item.prop]" show-password />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="handleUpdate">{{ $t('submit') }}</el-button>
+            <el-button type="primary" :loading="submitLoading" @click="handleUpdate">{{ $t('submit') }}</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -61,17 +61,23 @@ export default {
           { required: true, trigger: 'blur', message: '请输入确认密码' },
           { validator: checkConfirmPwd, trigger: 'blur' }
         ]
-      }
+      },
+      submitLoading: false
     }
   },
   methods: {
     handleUpdate() {
       this.$refs.form.validate(async(valid) => {
         if (valid) {
-          await adminResource.setPassword(this.form)
-          await this.$store.dispatch('user/logout')
-          this.$message.warning(this.$t('pwd_change_success'))
-          this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+          this.submitLoading = true
+          try {
+            await adminResource.setPassword(this.form)
+            await this.$store.dispatch('user/logout')
+            this.$message.warning(this.$t('pwd_change_success'))
+            this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+          } finally {
+            this.submitLoading = false
+          }
         }
       })
     }

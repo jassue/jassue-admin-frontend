@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     add() {
-      this.title = '添加角色'
+      this.title = '新增角色'
       this.visible = true
       this.treeStyleAdjustment()
     },

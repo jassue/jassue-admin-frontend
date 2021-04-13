@@ -4,7 +4,7 @@
       <!-- 左侧 -->
       <div class="layout-left">
         <div v-permission="'ROLE_CREATE'" style="text-align: center;margin-bottom: 20px;">
-          <el-button style="width: 150px;" type="primary" @click="$refs.roleForm.add()">添加角色</el-button>
+          <el-button style="width: 150px;" type="primary" @click="$refs.roleForm.add()">新增角色</el-button>
         </div>
         <div class="dept-tree">
           <el-tree ref="tree" highlight-current :data="roleList" :props="roleProps" node-key="id" :expand-on-click-node="false" empty-text="" @node-click="nodeClick">
@@ -33,7 +33,7 @@
         <!-- 操作 -->
         <el-row type="flex" justify="space-between">
           <el-col :span="18" class="">
-            <el-button v-permission="'ADMIN_CREATE'" type="primary" @click="$refs.adminForm.add()">添加</el-button>
+            <el-button v-permission="'ADMIN_CREATE'" type="primary" @click="$refs.adminForm.add()">新增</el-button>
             <el-button v-if="selectionList.length === 1" v-permission="'ADMIN_UPDATE'" type="primary" @click="handleAdminEdit">编辑</el-button>
             <el-button v-if="selectionList.length >= 1" v-permission="'ADMIN_UPDATE'" @click="handleAdminResetPwd">重置密码</el-button>
             <el-button v-permission="'ADMIN_DELETE'" type="danger" @click="deleteAdmin">{{$t('table.delete')}}</el-button>

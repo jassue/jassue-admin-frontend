@@ -26,13 +26,13 @@
             <el-input v-else v-model="form[item.prop]" :disabled="item.disabled" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="handleUpdate">{{ $t('submit') }}</el-button>
+            <el-button type="primary" :loading="submitLoading" @click="handleUpdate">{{ $t('submit') }}</el-button>
           </el-form-item>
         </el-col>
         <el-col class="right" :span="14">
           <el-form-item label="头像">
             <div class="avatar-container">
-              <avatar-cropper ref="avatarCropper" :avatar-url.sync="form.avatar_url" empty-text="无" :font-size="60" @on-success="uploadSuccess"></avatar-cropper>
+              <avatar-cropper ref="avatarCropper" :avatar-url.sync="form.avatar_url" :empty-text="form.name.substring(0, 1)" :font-size="60" @on-success="uploadSuccess"></avatar-cropper>
             </div>
             <div class="change-btn-container">
               <el-button @click="changeAvatar">更换头像</el-button>
@@ -81,7 +81,8 @@ export default {
         gender: [
           { validator: checkGender, trigger: 'blur' }
         ]
-      }
+      },
+      submitLoading: false
     }
   },
   computed: {
@@ -102,12 +103,17 @@ export default {
     handleUpdate() {
       this.$refs.form.validate(async(valid) => {
         if (valid) {
-          this.$store.dispatch('user/setInfo', await staffResource.updatePersonalInfo(this.form))
-          this.$notify.success({
-            title: '成功',
-            message: '修改成功',
-            duration: 2500
-          })
+          this.submitLoading = true
+          try {
+            this.$store.dispatch('user/setInfo', await staffResource.updatePersonalInfo(this.form))
+            this.$notify.success({
+              title: '成功',
+              message: '修改成功',
+              duration: 2000
+            })
+          } finally {
+            this.submitLoading = false
+          }
         }
       })
     }
