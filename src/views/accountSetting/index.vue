@@ -23,7 +23,7 @@ export default {
     }
   },
   created() {
-    this.resetLeftTabHeight()
+    setTimeout(this.resetLeftTabHeight, 50)
   },
   methods: {
     resetLeftTabHeight() {

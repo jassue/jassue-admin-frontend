@@ -81,8 +81,10 @@
                 <div style="width: 25px; height: 25px; display: inline-block; margin-right: 5px;">
                   <avatar-cropper :avatar-url="scope.row['avatar_url']" :empty-text="scope.row[col.prop].substring(0,1)" :font-size="12.5" :show-change="false"></avatar-cropper>
                 </div>
-                <span>{{ scope.row[col.prop] }}</span>
-                <el-tag v-if="scope.row['is_preset']" effect="dark" size="mini" class="name-tag">{{$t('contact.creator')}}</el-tag>
+                <span style="line-height: 25px">
+                  {{ scope.row[col.prop] }}
+                  <el-tag v-if="scope.row['is_preset']" effect="dark" size="mini" class="name-tag">{{$t('contact.creator')}}</el-tag>
+                </span>
               </div>
               <span v-else>{{ scope.row[col.prop] }}</span>
             </template>
@@ -145,7 +147,7 @@ export default {
       loading: true,
       tbLoading: false,
       tbCols: [
-        { prop: 'name', label: this.$t('personnel.name') },
+        { prop: 'name', label: this.$t('personnel.name'), width: '200px' },
         { prop: 'mobile', label: this.$t('personnel.mobile') },
         { prop: 'email', label: this.$t('personnel.email') },
         { prop: 'job_number', label: this.$t('personnel.job_number') },

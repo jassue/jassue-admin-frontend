@@ -59,8 +59,10 @@
                 <div style="width: 25px; height: 25px; display: inline-block; margin-right: 5px;">
                   <avatar-cropper :avatar-url="scope.row['staff']['avatar_url']" :empty-text="scope.row[col.prop].substring(0,1)" :font-size="12.5" :show-change="false"></avatar-cropper>
                 </div>
-                <span>{{ scope.row[col.prop] }}</span>
-                <el-tag v-if="scope.row['staff']['is_preset']" effect="dark" size="mini" class="name-tag">{{$t('contact.creator')}}</el-tag>
+                <span style="line-height: 25px">
+                  {{ scope.row[col.prop] }}
+                  <el-tag v-if="scope.row['staff']['is_preset']" effect="dark" size="mini" class="name-tag">{{$t('contact.creator')}}</el-tag>
+                </span>
               </div>
               <div v-else-if="col.prop === 'status'">
                 <el-tag v-if="scope.row[col.prop] === 0">启用</el-tag>
@@ -124,7 +126,7 @@ export default {
       loading: true,
       tbLoading: false,
       tbCols: [
-        { prop: 'name', label: '姓名' },
+        { prop: 'name', label: '姓名', width: '200px' },
         { prop: 'mobile', label: '手机号（登录账号）' },
         { prop: 'status', label: '状态' },
         { prop: 'created_at', label: '创建时间' }

@@ -118,7 +118,9 @@ export default {
     },
     add() {
       this.title = '新增管理员'
-      this.form = {}
+      this.form = {
+        status: 0
+      }
       this.formRules.password = [
         { required: true, trigger: 'blur', message: '请输入密码'},
         { validator: this.validatePass, trigger: 'blur', message: '请输入密码' },
