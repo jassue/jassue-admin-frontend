@@ -16,7 +16,11 @@ function filterAsyncRoutes(routes, permissions) {
       if (tmp.children && tmp.children.length > 0) {
         tmp.children = filterAsyncRoutes(tmp.children, permissions)
       }
-      res.push(tmp)
+      if (route.meta && route.meta.isLeaf) {
+        tmp.children && tmp.children.length > 0 && res.push(tmp)
+      } else {
+        res.push(tmp)
+      }
     }
   })
   return res

@@ -259,14 +259,12 @@ export default {
         this.$message.error('请至少选择一个部门')
         return
       }
-      try {
-        await staffResource.setDept(
-          this.selectionList.map(item => item.id),
-          departments.map(item => item.id)
-        )
-        this.$message.success(this.$t('table.operation_success'))
-        this.getStaffList()
-      } catch(e) {}
+      await staffResource.setDept(
+        this.selectionList.map(item => item.id),
+        departments.map(item => item.id)
+      )
+      this.$message.success(this.$t('table.operation_success'))
+      this.getStaffList()
     },
     deleteStaff() {
       if (this.selectionList.length === 0) {

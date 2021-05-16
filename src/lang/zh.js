@@ -45,7 +45,10 @@ module.exports = {
     account_setting: '个人设置',
     personnel: '人员管理',
     staff_dep: '通讯录',
-    admins: '管理员'
+    admins: '管理员',
+    system: '系统管理',
+    setting: '配置中心',
+    log: '操作日志'
   },
   table: {
     search: '搜索',
@@ -81,6 +84,7 @@ module.exports = {
     selected: '已选中',
     item: '项'
   },
+  system_error: '系统错误：',
   token_expired: 'Token已失效',
   browser_problem: '您的浏览器无法执行！',
   user_setting: '个人设置',

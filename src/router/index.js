@@ -33,33 +33,63 @@ export const asyncRouterMap = [
     path: '/account',
     component: () => import('@/layout/'),
     hidden: true,
-    children: [{
-      path: 'settings',
-      component: () => import('@/views/accountSetting/'),
-      name: 'AccountSetting',
-      meta: { title: 'account_setting' }
-    }]
+    children: [
+      {
+        path: 'settings',
+        component: () => import('@/views/accountSetting/'),
+        name: 'AccountSetting',
+        meta: { title: 'account_setting' }
+      }
+    ]
   },
   {
     path: '/',
     component: () => import('@/layout/'),
     redirect: '/dashboard',
-    meta: { permission: 'DASHBOARD' },
-    children: [{
-      path: 'dashboard',
-      component: () => import('@/views/dashboard/'),
-      name: 'Dashboard',
-      meta: { title: 'dashboard', icon: 'dashboard', permission: 'DASHBOARD' }
-    }]
+    meta: { 
+      isLeaf: true
+    },
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/'),
+        name: 'Dashboard',
+        meta: { title: 'dashboard', icon: 'dashboard', permission: 'DASHBOARD' }
+      }
+    ]
+  },
+  {
+    path: '/system',
+    component: () => import('@/layout/'),
+    redirect: '/system/log',
+    meta: {
+      title: 'system',
+      icon: 'setting',
+      isLeaf: true
+    },
+    children: [
+      {
+        path: 'setting',
+        component: () => import('@/views/system/setting/'),
+        name: 'Setting',
+        meta: { title: 'setting', icon: 'setting2', permission: 'SYSTEM_CONFIG' }
+      },
+      {
+        path: 'log',
+        component: () => import('@/views/system/log/'),
+        name: 'Log',
+        meta: { title: 'log', icon: 'log', permission: 'SYSTEM_LOG' }
+      }
+    ]
   },
   {
     path: '/personnel',
     component: () => import('@/layout/'),
     redirect: '/personnel/staffDep',
-    name: 'Personnel',
     meta: {
       title: 'personnel',
-      icon: 'peoples'
+      icon: 'peoples',
+      isLeaf: true
     },
     children: [
       {
