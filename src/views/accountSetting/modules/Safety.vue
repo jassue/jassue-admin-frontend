@@ -29,9 +29,8 @@
 </template>
 
 <script>
-import AdminResource from '@/api/admin'
+import { setPassword } from '@/api/auth'
 
-const adminResource = new AdminResource()
 export default {
   name: 'Safety',
   data() {
@@ -71,7 +70,7 @@ export default {
         if (valid) {
           this.submitLoading = true
           try {
-            await adminResource.setPassword(this.form)
+            await setPassword(this.form)
             await this.$store.dispatch('user/logout')
             this.$message.warning(this.$t('pwd_change_success'))
             this.$router.push(`/login?redirect=${this.$route.fullPath}`)

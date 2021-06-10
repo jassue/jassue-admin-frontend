@@ -21,15 +21,15 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: {
-      '/api': {
-        target: process.env.SERVER_BASE_API,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '/api'
-        }
-      }
-    }
+    // proxy: {
+    //   '/api': {
+    //     target: process.env.SERVER_BASE_API,
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api': '/api'
+    //     }
+    //   }
+    // }
   },
   chainWebpack: config => {
     // set alias

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/login',
+    url: '/auth/login',
     method: 'post',
     data: data
   })
@@ -10,14 +10,30 @@ export function login(data) {
 
 export function getInfo() {
   return request({
-    url: '/admin/info',
+    url: '/auth/info',
     method: 'post'
   })
 }
 
 export function logout() {
   return request({
-    url: '/logout',
+    url: '/auth/logout',
     method: 'post'
+  })
+}
+
+export function setPassword(data) {
+  return request({
+    url: '/auth/set_password',
+    method: 'post',
+    data: data
+  })
+}
+
+export function updatePersonalInfo(data) {
+  return request({
+    url: '/auth/update_profile',
+    method: 'post',
+    data: data
   })
 }

@@ -121,10 +121,10 @@
 
 <script>
 import DeptPicker from '@/components/DeptPicker'
-import CommonResource from '@/api/common'
+import MediaResource from '@/api/media'
 import StaffResource from '@/api/staff'
 
-const commonResource = new CommonResource()
+const mediaResource = new MediaResource()
 const staffResource = new StaffResource()
 export default {
   components: { DeptPicker },
@@ -184,7 +184,7 @@ export default {
       this.visible = true
     },
     downloadTemplate() {
-      commonResource.downloadExcelTemplate('staff')
+      mediaResource.downloadExcelTemplate('staff')
     },
     async fileUpload({ file }) {
       this.uploadStep = 2
@@ -193,7 +193,7 @@ export default {
         this.progress = ((progressEvent.loaded / progressEvent.total) * 100) | 0
       }
       try {
-        const { cache_key } = await commonResource.excelUpload(file, onUploadProgress)
+        const { cache_key } = await mediaResource.excelUpload(file, onUploadProgress)
         const data = await staffResource.excelImport(cache_key)
         this.importDetail = data
         this.importDetail.failure_data = data.failure_data.map(item => {

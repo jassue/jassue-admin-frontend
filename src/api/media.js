@@ -1,14 +1,9 @@
 import request from '@/utils/request'
 
-class CommonResource {
-  constructor() {
-    this.uri = 'common'
-  }
-
+class MediaResource {
   downloadExcelTemplate(type) {
     return request({
-      baseURL: '/api',
-      url: '/' + this.uri + '/excel_template',
+      url: '/excel_template',
       method: 'get',
       params: {
         type: type
@@ -21,8 +16,7 @@ class CommonResource {
     const formData = new FormData()
     formData.append('file', file)
     return request({
-      baseURL: '/api',
-      url: '/' + this.uri + '/excel_upload',
+      url: '/excel_upload',
       method: 'post',
       data: formData,
       headers: {
@@ -38,8 +32,7 @@ class CommonResource {
     formData.append('image_type', 2)
     formData.append('business', business)
     return request({
-      baseURL: '/api',
-      url: '/' + this.uri + '/image_upload',
+      url: '/image_upload',
       method: 'post',
       data: formData,
       headers: {
@@ -49,4 +42,4 @@ class CommonResource {
   }
 }
 
-export default CommonResource
+export default MediaResource

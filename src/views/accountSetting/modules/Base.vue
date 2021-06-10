@@ -47,9 +47,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import AvatarCropper from '@/components/AvatarCropper'
-import StaffResource from '@/api/staff'
+import { updatePersonalInfo } from '@/api/auth'
 
-const staffResource = new StaffResource()
 export default {
   name: 'Base',
   components: { AvatarCropper },
@@ -105,7 +104,7 @@ export default {
         if (valid) {
           this.submitLoading = true
           try {
-            this.$store.dispatch('user/setInfo', await staffResource.updatePersonalInfo(this.form))
+            this.$store.dispatch('user/setInfo', await updatePersonalInfo(this.form))
             this.$notify.success({
               title: '成功',
               message: '修改成功',

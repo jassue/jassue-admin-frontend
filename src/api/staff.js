@@ -24,14 +24,6 @@ class StaffResource extends Resource {
       }
     })
   }
-
-  updatePersonalInfo(data) {
-    return request({
-      url: '/' + this.uri + '/update_self',
-      method: 'post',
-      data: data
-    })
-  }
 }
 
 export default StaffResource

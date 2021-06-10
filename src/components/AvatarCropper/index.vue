@@ -38,9 +38,9 @@
 <script>
 import { VueCropper }  from 'vue-cropper' 
 import { imageToBase64 } from '@/utils'
-import CommonResource from '@/api/common'
+import MediaResource from '@/api/media'
 
-const commonResource = new CommonResource()
+const mediaResource = new MediaResource()
 export default {
   props: {
     avatarUrl: {
@@ -77,7 +77,7 @@ export default {
     },
     uploadImg() {
       this.$refs.cropper.getCropBlob(async (data) => {
-        const result = await commonResource.imageUpload(data, 'avatar')
+        const result = await mediaResource.imageUpload(data, 'avatar')
         this.$emit('update:avatarUrl', result.url)
         this.$emit('on-success', result)
       })
