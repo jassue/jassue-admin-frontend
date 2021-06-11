@@ -184,7 +184,7 @@ export default {
       this.visible = true
     },
     downloadTemplate() {
-      mediaResource.downloadExcelTemplate('staff')
+      mediaResource.downloadExcelTemplate('STAFF')
     },
     async fileUpload({ file }) {
       this.uploadStep = 2
