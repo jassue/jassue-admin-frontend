@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      title: 'Laravel Vue Admin'
+      title: 'Jassue Admin'
     }
   }
 }
