@@ -7,7 +7,7 @@ function resolve(dir) {
 const port = process.env.DEV_CONFIG_PORT || 80
 
 module.exports = {
-  publicPath: '/',
+  publicPath: process.env.PUBLIC_PATH || '/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV !== 'production',
