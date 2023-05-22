@@ -51,20 +51,20 @@ export default {
     return {
       form: {},
       drivers: [
-        { label: 'public', name: '本地' },
-        { label: 'qiniu', name: '七牛云' },
-        { label: 'oss', name: '阿里云' },
+        { label: 'PUBLIC', name: '本地' },
+        { label: 'QINIU', name: '七牛云' },
+        { label: 'OSS', name: '阿里云' },
       ],
       driverConfig: {
-        public: [],
-        qiniu: [
+        PUBLIC: [],
+        QINIU: [
           { prop: 'bucket', label: '存储空间名称 Bucket' },
           { prop: 'access_key', label: 'ACCESS KEY' },
           { prop: 'secret_key', label: 'SECRET KEY' },
           { prop: 'domain', label: '域名 Domain' },
           { prop: 'is_ssl', label: '开启 HTTPS' }
         ],
-        oss: [
+        OSS: [
           { prop: 'bucket', label: '存储空间名称 Bucket' },
           { prop: 'endpoint', label: '地域域名 Endpoint' },
           { prop: 'access_key_id', label: 'ACCESS KEY ID' },
