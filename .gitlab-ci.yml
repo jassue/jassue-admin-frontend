@@ -101,6 +101,5 @@ deploy-dev:
     - echo -e "${ANSIBLE_HOSTS}" > ~/hosts
     - echo -e "${ANSIBLE_PLAYBOOK}" > ~/playbook.yml
     - echo -e "${DEV_NGINX_PROXY}" > nginx-proxy.conf
-    - cat ~/playbook.yml
-    - cat nginx-proxy.conf
+    - FULL_DOCKER_IMAGE=$DOCKER_REGISTRY/$DOCKER_REGISTRY_NAMESPACE/$DOCKER_IMAGE
     - ansible-playbook ~/playbook.yml -i ~/hosts --extra-vars "server_name=dev_server docker_image=$FULL_DOCKER_IMAGE version=$VERSION"
