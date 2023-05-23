@@ -40,6 +40,8 @@ npm:
         npm install;
       else
         echo 'node_modules exists';
+        npm cache clean -f
+        rm -rf node_modules
         npm install;
       fi
     - export PUBLIC_PATH=/admin
