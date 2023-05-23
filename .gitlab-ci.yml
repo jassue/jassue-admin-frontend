@@ -40,6 +40,7 @@ npm:
         npm install;
       else
         echo 'node_modules exists';
+        npm install;
       fi
     - export PUBLIC_PATH=/admin
     - export VUE_APP_BASE_API=/api/admin
