@@ -1,3 +1,5 @@
+image: node:12.14.1-buster-slim
+
 variables:
   VERSION: $CI_COMMIT_SHORT_SHA
   DOCKER_IMAGE: $CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA
@@ -22,7 +24,6 @@ before_script:
   - echo $VERSION
 
 npm:
-  image: node:12.14-alpine
   stage: build
   cache:
     key:
@@ -50,7 +51,6 @@ npm:
       - dist/
 
 code-style:
-  image: node:12.14-alpine
   stage: test
   cache:
     key:
@@ -100,6 +100,5 @@ deploy-dev:
     - export ANSIBLE_HOST_KEY_CHECKING=False
     - echo -e "${ANSIBLE_HOSTS}" > ~/hosts
     - echo -e "${ANSIBLE_PLAYBOOK}" > ~/playbook.yml
-    - cat ~/playbook.yml
     - echo -e "${DEV_NGINX_PROXY}" > nginx-proxy.conf
-    - ansible-playbook ~/playbook.yml -i ~/hosts --extra-vars "project_name=$CI_PROJECT_NAME server_name=dev_server docker_image=$FULL_DOCKER_IMAGE version=$VERSION"
+    - ansible-playbook ~/playbook.yml -i ~/hosts --extra-vars "server_name=dev_server docker_image=$FULL_DOCKER_IMAGE version=$VERSION"
