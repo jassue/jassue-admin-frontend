@@ -40,8 +40,6 @@ npm:
         npm install;
       else
         echo 'node_modules exists';
-        rm -rf node_modules;
-        npm install;
       fi
     - export PUBLIC_PATH=/admin
     - export VUE_APP_BASE_API=/api/admin
@@ -103,4 +101,6 @@ deploy-dev:
     - echo -e "${ANSIBLE_HOSTS}" > ~/hosts
     - echo -e "${ANSIBLE_PLAYBOOK}" > ~/playbook.yml
     - echo -e "${DEV_NGINX_PROXY}" > nginx-proxy.conf
+    - cat ~/playbook.yml
+    - cat nginx-proxy.conf
     - ansible-playbook ~/playbook.yml -i ~/hosts --extra-vars "server_name=dev_server docker_image=$FULL_DOCKER_IMAGE version=$VERSION"
